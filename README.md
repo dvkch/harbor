@@ -39,6 +39,7 @@ OPTIONS:
   -h, --help              Show help information.
 
 SUBCOMMANDS:
+  stats                   Obtain container stats for an environment
   exec                    Run a command on a given docker service
   logs                    Show log stream for a docker service
   reload                  Restart a service

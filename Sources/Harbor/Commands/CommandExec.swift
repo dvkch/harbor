@@ -7,7 +7,6 @@
 
 import Foundation
 import ArgumentParser
-import ArgumentParserToolInfo
 
 struct CommandExec: ParsableCommand {
     static var configuration = CommandConfiguration(

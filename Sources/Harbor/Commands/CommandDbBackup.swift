@@ -7,7 +7,6 @@
 
 import Foundation
 import ArgumentParser
-import ArgumentParserToolInfo
 
 struct CommandDbBackup: ParsableCommand {
     static var configuration = CommandConfiguration(

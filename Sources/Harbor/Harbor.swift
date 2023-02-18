@@ -13,6 +13,7 @@ struct Harbor: ParsableCommand {
     static var configuration = CommandConfiguration(
         abstract: "Harbor",
         subcommands: [
+            CommandStats.self,
             CommandExec.self,
             CommandLogs.self,
             CommandReload.self,

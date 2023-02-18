@@ -13,8 +13,7 @@ extension Environment {
         case none, db, sensitiveOperation
     }
     
-    static func selectService(env envName: String?, service serviceName: String?, filter: ServiceFilter) -> (Environment, String) {
-        // select env
+    static func selectEnvironment(env envName: String?) -> Environment {
         let envs = Config.shared.environments
         let selectedEnv: Environment
         if let envName, let env = envs.first(where: { $0.alias == envName }) {
@@ -23,6 +22,11 @@ extension Environment {
         else {
             selectedEnv = Prompt.choice("Select your env:", options: envs)
         }
+        return selectedEnv
+    }
+
+    static func selectService(env envName: String?, service serviceName: String?, filter: ServiceFilter) -> (Environment, String) {
+        let selectedEnv = selectEnvironment(env: envName)
         
         // select service
         let services = selectedEnv.services(filter: filter)

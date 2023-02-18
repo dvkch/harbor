@@ -38,9 +38,13 @@ extension Environment {
 
         var dataOut = ""
         var dataErr = ""
+
         let pipeOut = Pipe()
-        let pipeErr = Pipe()
+        defer { pipeOut.fileHandleForReading.closeFile() }
         
+        let pipeErr = Pipe()
+        defer { pipeErr.fileHandleForReading.closeFile() }
+
         pipeOut.fileHandleForReading.readabilityHandler = { handle in
             if let line = String(data: handle.availableData, encoding: .utf8) {
                 if output {
@@ -71,50 +75,16 @@ extension Environment {
             print("Error while executing \(commandString) on \(host), returned \(task.terminationStatus)")
             exit(task.terminationStatus)
         }
+
         return dataOut.split(separator: "\n").map { String($0) }
     }
     
     func sshInteractive(_ command: String) {
-        let stdInPipe = Pipe()
-        let stdOutPipe = Pipe()
-        let stdErrPipe = Pipe()
-        
-        Thread.detachNewThread {
-            try! runInRawMode {
-                while true {
-                    var char: UInt8 = 0
-                    read(STDIN_FILENO, &char, 1)
-                    write(stdInPipe.fileHandleForWriting.fileDescriptor, &char, 1)
-                }
-            }
-        }
-        
-        Thread.detachNewThread {
-            try! runInRawMode(fd: STDOUT_FILENO) {
-                while true {
-                    var char: UInt8 = 0
-                    read(stdOutPipe.fileHandleForReading.fileDescriptor, &char, 1)
-                    write(STDOUT_FILENO, &char, 1)
-                }
-            }
-        }
-        
-        Thread.detachNewThread {
-            try! runInRawMode(fd: STDERR_FILENO) {
-                while true {
-                    var char: UInt8 = 0
-                    read(stdErrPipe.fileHandleForReading.fileDescriptor, &char, 1)
-                    write(STDERR_FILENO, &char, 1)
-                }
-            }
-        }
-        
-        let task = Process()
-        task.launchPath = "/usr/bin/env"
-        task.arguments = ["ssh", "-tt", "-p\(port)", "\(user)@\(host)", command]
-        task.standardInput = stdInPipe
-        task.standardOutput = stdOutPipe
-        task.standardError = stdErrPipe
+        let task = Subprocess(
+            path: "/usr/bin/env",
+            args: ["ssh", "-tt", "-x", "-p\(port)", "\(user)@\(host)", command],
+            autokillAfterDeath: true
+        )
         task.launch()
         task.waitUntilExit()
         exit(0)

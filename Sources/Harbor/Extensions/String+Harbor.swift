@@ -21,3 +21,16 @@ extension String {
         return components.filter(\.isNotEmpty).joined(separator: "-")
     }
 }
+
+extension String {
+    func escapingOccurrences(of string: String) -> String {
+        replacingOccurrences(of: string, with: "\\" + string)
+    }
+    
+    var commandEscaped: String {
+        if self.contains(where: \.isWhitespace) {
+            return "\"" + escapingOccurrences(of: "\"") + "\""
+        }
+        return self
+    }
+}

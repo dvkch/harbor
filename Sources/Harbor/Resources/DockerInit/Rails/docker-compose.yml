@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres:14.2-alpine
+    environment:
+      - POSTGRES_DB=|SLUG|
+      - POSTGRES_PASSWORD=|PG_PASSWORD|
+    ports:
+      - 5432
+    volumes:
+      - /var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  app:
+    image: |SLUG|-dev
+    build:
+      context: .
+    environment:
+      - PORT=9000
+      - RAILS_MAX_THREADS=5
+      - RAILS_LOG_TO_STDOUT=1
+      - DATABASE_URL=postgres://postgres:|PG_PASSWORD|@db:5432/|SLUG|
+      - APP_HOST=localhost:9000
+    links:
+      - db
+    depends_on:
+      - db
+    ports:
+      - 9000
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 9000 || exit 1"]
+      interval: 30s
+      start_period: 1m

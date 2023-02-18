@@ -41,7 +41,9 @@ OPTIONS:
 SUBCOMMANDS:
   exec                    Run a command on a given docker service
   logs                    Show log stream for a docker service
+  reload                  Restart a service
   db-backup               Download a backup of the DB
+  docker-init             Create default files for Docker deployment
 
   See 'harbor help <subcommand>' for detailed help.
 ```

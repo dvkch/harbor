@@ -27,7 +27,7 @@ class Subprocess {
     let args: [String]
     let envs: [String: String]
     private var fullEnvs: [String: String] {
-        var finalEnv = ProcessInfo().environment
+        var finalEnv = ProcessInfo.processInfo.environment
         envs.forEach { key, value in
             finalEnv[key] = value
         }

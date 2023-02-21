@@ -16,7 +16,8 @@ extension String {
             fatalError("Slugified strings shouldn't be empty")
         }
 
-        let latin = applyingTransform(StringTransform("Any-Latin; Latin-ASCII; Lower;"), reverse: false)!
+        let regex = try! NSRegularExpression(pattern: "[^a-zA-Z0-9]+", options: [])
+        let latin = regex.stringByReplacingMatches(in: self, range: NSRange(location: 0, length: self.count), withTemplate: "-")
         let components = latin.components(separatedBy: String.slugSafeCharacters.inverted)
         return components.filter(\.isNotEmpty).joined(separator: "-")
     }

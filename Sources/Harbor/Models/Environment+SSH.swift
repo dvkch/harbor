@@ -65,11 +65,11 @@ extension Environment {
         }
 
         let task = Process()
-        task.launchPath = "/usr/bin/env"
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/env")
         task.arguments = ["bash", "-c", commandString]
         task.standardOutput = pipeOut
         task.standardError = pipeErr
-        task.launch()
+        try! task.run()
         task.waitUntilExit()
         if task.terminationStatus != 0 {
             print("Error while executing \(commandString) on \(host), returned \(task.terminationStatus)")

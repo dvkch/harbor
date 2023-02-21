@@ -20,7 +20,7 @@ The configuration file should reside in `~/.config/harbor.json`, and formatted a
       "provider": "swarm",       // stack used, possible values are `compose` or `swarm` for now
       "nodes": {                 // list the correspondances of node name -> host
         "node1": "vps.example.com",
-        "node2": "vps-secondary.exaple.com",
+        "node2": "vps-secondary.example.com",
       }
     },
     ...
@@ -48,3 +48,10 @@ SUBCOMMANDS:
 
   See 'harbor help <subcommand>' for detailed help.
 ```
+
+### Building
+
+The simplest way to build this is to run `swift build`.
+
+To generate packages for macOS and Linux containing the main executable and resources, you can run `./build.sh release`.
+

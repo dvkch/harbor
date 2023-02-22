@@ -8,11 +8,15 @@
 import Foundation
 import ArgumentParser
 
-struct CommandDockerInit: ParsableCommand {
+struct CommandDockerInit: ParsableCommand, RuntimeAvailability {
     static var configuration = CommandConfiguration(
         commandName: "docker-init",
         abstract: "Create default files for Docker deployment"
     )
+    
+    static var isAvailable: Bool {
+        return Bundle.moduleBundleAvailable
+    }
     
     @Argument(help: "Service name")
     var slug: String

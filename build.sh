@@ -7,8 +7,6 @@ if [ "x$1" = "xrelease" ]; then
     rm -rf .build
 
     # build for macOS
-    BUILD_PATH=".build/arm64-apple-macosx/release"
-    BUNDLE_NAME="Harbor_Harbor.bundle"
     swift build --arch arm64 --arch x86_64 -c release
     mkdir -p "build/macOS"
     rsync -ar ".build/apple/Products/Release/harbor"               "build/macOS"
@@ -33,9 +31,10 @@ if [ "x$1" = "xrelease" ]; then
     rsync -ar ".build/aarch64-unknown-linux-gnu/release/Harbor_Harbor.resources" "build/linux-arm64"
 
 else
-    BUILD_PATH=".build/arm64-apple-macosx/debug"
-    BUNDLE_NAME="Harbor_Harbor.bundle"
-    swift build -c debug
+    swift build --arch arm64 --arch x86_64 -c debug
+    mkdir -p "build/macOS"
+    rsync -ar ".build/apple/Products/Debug/harbor"               "build/macOS"
+    rsync -ar ".build/apple/Products/Debug/Harbor_Harbor.bundle" "build/macOS"
 fi
 
 echo "All good!"

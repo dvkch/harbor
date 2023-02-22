@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import ConsoleKit
-import SwiftCLI
 
 #if os(Linux)
 import Glibc

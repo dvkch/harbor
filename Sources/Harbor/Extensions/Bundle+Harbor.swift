@@ -17,7 +17,6 @@ extension Bundle {
         #endif
         let baseURL = Bundle.main.bundleURL
         let bundleURL = baseURL.appendingPathComponent(bundleName)
-        print(bundleURL)
         return Bundle(url: bundleURL) != nil
     }
 }

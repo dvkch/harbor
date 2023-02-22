@@ -12,7 +12,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.1"),
         .package(url: "https://github.com/vapor/console-kit.git", from: "4.5.0"),
-        .package(url: "https://github.com/jakeheis/SwiftCLI", from: "6.0.0")
     ],
     targets: [
         .executableTarget(
@@ -20,7 +19,6 @@ let package = Package(
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "ConsoleKit", package: "console-kit"),
-                .product(name: "SwiftCLI", package: "SwiftCLI")
             ],
             resources: [
                 .copy("Resources")

@@ -7,6 +7,7 @@
 
 import Foundation
 import ArgumentParser
+import ConsoleKit
 
 @main
 struct Harbor: ParsableCommand {
@@ -28,4 +29,3 @@ struct Harbor: ParsableCommand {
         )
     }()
 }
-

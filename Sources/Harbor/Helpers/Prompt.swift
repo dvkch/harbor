@@ -15,7 +15,7 @@ struct Prompt {
             return options[0]
         }
         
-        return Terminal().choose("\(title)", from: options)
+        return Terminal().showOptions(title: title, options: options, display: { $0.description })
     }
     
     static func choice<E: CaseIterable & RawRepresentable & CustomStringConvertible>(_ title: String, options: E.Type) -> E {
@@ -31,17 +31,9 @@ struct Prompt {
         return options[selectedKey]!
     }
     
-    static func input(_ title: String, default: String? = nil, historyKey: String? = nil) -> String {
-        Terminal().output("\(title)")
-        if let historyKey, let savedValue = UserDefaults.standard.string(forKey: historyKey) {
-            if choice("Use saved value?", options: [savedValue, "custom"]) == savedValue {
-                return savedValue
-            }
-        }
+    static func input(_ title: String, default: String? = nil) -> String {
+        Terminal().output("\(title) ", newLine: false)
         let value = Terminal().input()
-        if let historyKey {
-            UserDefaults.standard.set(value, forKey: historyKey)
-        }
         return value
     }
     

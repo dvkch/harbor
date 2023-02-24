@@ -77,18 +77,18 @@ extension Environment {
     func logs(service: String, tail: Int) {
         switch provider {
         case .swarm:
-            sshRun(.command("docker service logs #{service} -f --tail \(tail)"))
+            sshRun(.command("docker service logs \(service) -f --tail \(tail)"))
         case .compose:
-            sshRun(.command("docker container logs #{service} -f --tail \(tail)"))
+            sshRun(.command("docker container logs \(service) -f --tail \(tail)"))
         }
     }
   
     func reload(service: String) {
         switch provider {
         case .swarm:
-            sshRun(.command("docker service update #{service} --force"), cleanupDuplicateOutput: true)
+            sshRun(.command("docker service update \(service) --force"), cleanupDuplicateOutput: true)
         case .compose:
-            sshRun(.command("docker container restart #{service}"))
+            sshRun(.command("docker container restart \(service)"))
         }
     }
     

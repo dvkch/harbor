@@ -1,3 +1,5 @@
+<img src="Resources/README-AppIcon.png" width=64 />
+
 # Harbor
 
 Just another CLI tool to easily access Docker Composer and Docker Swarm containers via SSH.

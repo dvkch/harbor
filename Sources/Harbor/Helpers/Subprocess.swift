@@ -82,8 +82,10 @@ class Subprocess {
 
         var terminationStatus: Int32 = 0
         let r = waitpid(pid, &terminationStatus, 0)
-        guard r != -1 else {
-            fatalError("WaitPIDError")
+        if r == -1 {
+            #if DEBUG
+            print("Cannot wait for the end of the process, maybe it already returned?")
+            #endif
         }
         state = .ended(terminationStatus: terminationStatus)
     }

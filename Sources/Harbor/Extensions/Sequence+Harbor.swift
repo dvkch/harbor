@@ -20,6 +20,10 @@ extension Collection {
         let filteredItems = self.filter(predicate)
         return filteredItems.count == 1 ? filteredItems.first : nil
     }
+    
+    var beforeLast: Element? {
+        return dropLast().last
+    }
 }
 
 extension Collection where Element == String {

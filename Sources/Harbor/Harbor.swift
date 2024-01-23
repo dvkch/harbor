@@ -42,6 +42,7 @@ struct Harbor: ParsableCommand {
             CommandReload.self,
             CommandDbBackup.self,
             CommandDockerInit.self,
+            CommandCompletion.self
         ].filter { ($0 as? RuntimeAvailability.Type)?.isAvailable != false }
         
         return .init(

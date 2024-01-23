@@ -15,7 +15,7 @@ struct CommandStats: ParsableCommand {
         discussion: "For a Docker Swarm environment, this will only show the stats for a single node"
     )
     
-    @Argument(help: "Environment")
+    @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
     var environment: Environment!
     

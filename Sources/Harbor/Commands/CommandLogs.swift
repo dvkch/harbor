@@ -14,11 +14,11 @@ struct CommandLogs: ParsableCommand {
         abstract: "Show log stream for a docker service"
     )
     
-    @Argument(help: "Environment")
+    @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
     var environment: Environment!
     
-    @Argument(help: "Service")
+    @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .none) }))
     var service: String!
     
     @Option(help: "Tail")

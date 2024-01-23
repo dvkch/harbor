@@ -14,11 +14,11 @@ struct CommandDbBackup: ParsableCommand {
         abstract: "Download a backup of the DB"
     )
     
-    @Argument(help: "Environment")
+    @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
     var environment: Environment!
     
-    @Argument(help: "Service")
+    @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .db) }))
     var service: String!
     
     @Argument(help: "Filename")

@@ -24,11 +24,14 @@ struct CommandLogs: ParsableCommand {
     @Option(help: "Tail")
     var tail: Int = 50
 
+    @Flag(help: "Tail")
+    var noStream: Bool = false
+
     mutating func run() throws {
         (self.environment, self.service) = Environment.selectService(env: env, service: service, filter: .none)
         print("")
         print("Streaming logs from \(environment.name)/\(service!)...")
-        environment.logs(service: service, tail: tail)
+        environment.logs(service: service, follow: !noStream, tail: tail)
     }
 }
 

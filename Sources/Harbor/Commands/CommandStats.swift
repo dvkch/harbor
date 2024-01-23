@@ -19,6 +19,9 @@ struct CommandStats: ParsableCommand {
     var env: String?
     var environment: Environment!
     
+    @Flag(help: "Print only first output instead of streaming")
+    var noStream: Bool = false
+    
     mutating func run() throws {
         self.environment = Environment.selectEnvironment(env: env)
         
@@ -27,7 +30,12 @@ struct CommandStats: ParsableCommand {
             self.environment = self.environment.copy(newHost: nodeHost)
         }
         
-        environment.sshRun(.command("docker stats"))
+        var command = "docker stats"
+        if noStream {
+            command += " --no-stream"
+        }
+        
+        environment.sshRun(.command(command))
     }
 }
 

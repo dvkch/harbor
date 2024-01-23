@@ -74,12 +74,13 @@ extension Environment {
         return services
     }
     
-    func logs(service: String, tail: Int) {
+    func logs(service: String, follow: Bool, tail: Int) {
+        let followFlag = follow ? "-f" : ""
         switch provider {
         case .swarm:
-            sshRun(.command("docker service logs \(service) -f --tail \(tail)"))
+            sshRun(.command("docker service logs \(service) \(followFlag) --tail \(tail)"))
         case .compose:
-            sshRun(.command("docker container logs \(service) -f --tail \(tail)"))
+            sshRun(.command("docker container logs \(service) \(followFlag) --tail \(tail)"))
         }
     }
   
@@ -105,7 +106,8 @@ extension Environment {
         }
     }
     
-    func exec(service: String, command: String, interactive: Bool = true) -> [String] {
+    @discardableResult
+    func exec(service: String, command: String, interactive: Bool = true, redirectOutputPath: String? = nil) -> [String] {
         switch provider {
         case .swarm:
             // https://www.reddit.com/r/docker/comments/a5kbte/comment/ebp9kab/?utm_source=share&utm_medium=web2x&context=3
@@ -124,7 +126,7 @@ extension Environment {
             let containerID = info[1]
             
             guard let nodeHost = nodes?[nodeName] else {
-                print("Couldn't find the corresponding host for the service \(service) on the node named \(nodeName)")
+                print("Found node named \(nodeName) for service \(service), but couldn't find corresponding host, check your config file")
                 exit(-1)
             }
 
@@ -134,7 +136,7 @@ extension Environment {
                 return []
             }
             else {
-                return updatedEnv.sshList(.command("docker exec -it \(containerID) \(command)"))
+                return updatedEnv.sshList(.command("docker exec -i \(containerID) \(command)"), redirectOutputPath: redirectOutputPath)
             }
                 
         case .compose:
@@ -143,7 +145,7 @@ extension Environment {
                 return []
             }
             else {
-                return sshList(.command("docker exec -i \(service) \(command)"))
+                return sshList(.command("docker exec -i \(service) \(command)"), redirectOutputPath: redirectOutputPath)
             }
         }
     }

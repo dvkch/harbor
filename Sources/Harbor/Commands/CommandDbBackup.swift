@@ -34,12 +34,12 @@ struct CommandDbBackup: ParsableCommand {
             return
         }
         
-        let outputURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent(filename)
-        
         print("")
         print("Detected image: \(image), tag: \(tag)")
         self.filename = filename ?? Prompt.input("Output filename:", default: "db.dump")
-        
+
+        let outputURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent(filename)
+
         switch image {
         case "postgres":
             let user = config.inspectableEnv(for: "POSTGRES_USER") ?? "postgres"
@@ -49,8 +49,8 @@ struct CommandDbBackup: ParsableCommand {
             }
             
             let command = "pg_dump -Fc --no-acl --no-owner -h localhost -U \(user) \(dbName)"
-            let data = environment.exec(service: service, command: command, interactive: false).joined().data(using: .utf8)!
-            try! data.write(to: outputURL)
+            environment.exec(service: service, command: command, interactive: false, redirectOutputPath: outputURL.path)
+            print("Finished! Your data is available at", outputURL.path)
             
         case "myssql":
             guard let user = config.inspectableEnv(for: "MYSQL_USER") else {
@@ -68,12 +68,10 @@ struct CommandDbBackup: ParsableCommand {
 
             var command = "MYSQL_PWD=\(pass) /usr/bin/mysqldump --default-character-set=utf8mb4 --no-tablespaces -u \(user) \(db)"
             command = "/bin/bash -c '\(command)'"
-            let dump = environment
-                .exec(service: service, command: command, interactive: false)
-                .joined(separator: "\n")
+            environment.exec(service: service, command: command, interactive: false, redirectOutputPath: outputURL.path)
 
-            try dump.write(to: outputURL, atomically: true, encoding: .utf8)
-            
+            print("Finished! Your data is available at", outputURL.path)
+
         default:
             print("Unrecognized DB image \(image), cannot perform DB backup")
         }

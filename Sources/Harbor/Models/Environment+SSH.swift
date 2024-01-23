@@ -21,8 +21,8 @@ extension Environment {
     }
     
     @discardableResult
-    func sshRun(_ command: SSHCommand, output: Bool = true, cleanupDuplicateOutput: Bool = false) -> [String] {
-        let commandString: String
+    func sshRun(_ command: SSHCommand, output: Bool = true, cleanupDuplicateOutput: Bool = false, redirectOutputPath: String? = nil) -> [String] {
+        var commandString: String
         let tempFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("harbor-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: tempFileURL) }
 
@@ -33,7 +33,11 @@ extension Environment {
             try! value.write(to: tempFileURL, atomically: true, encoding: .utf8)
             commandString = "ssh -\(port) \(user)@\(host) 'bash -s' < \(tempFileURL.path)"
         }
-
+        
+        if let redirectOutputPath {
+            commandString += " > \"\(redirectOutputPath)\""
+        }
+        
         var dataOut = ""
         var dataErr = ""
 
@@ -85,15 +89,14 @@ extension Environment {
         )
         task.launch()
         task.waitUntilExit()
-        exit(0)
     }
     
-    func sshList(_ command: SSHCommand) -> [String] {
-        return sshRun(command, output: false)
+    func sshList(_ command: SSHCommand, redirectOutputPath: String? = nil) -> [String] {
+        return sshRun(command, output: false, redirectOutputPath: redirectOutputPath)
             .map { $0.trimmingCharacters(in: .whitespaces) }
     }
     
-    func sshValue(_ command: SSHCommand) -> String? {
-        return sshList(command).first
+    func sshValue(_ command: SSHCommand, redirectOutputPath: String? = nil) -> String? {
+        return sshList(command, redirectOutputPath: redirectOutputPath).first
     }
 }

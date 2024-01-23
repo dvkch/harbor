@@ -87,9 +87,9 @@ extension Environment {
     func reload(service: String) {
         switch provider {
         case .swarm:
-            sshRun(.command("docker service update \(service) --force"), cleanupDuplicateOutput: true)
+            sshInteractive("docker service update \(service) --force")
         case .compose:
-            sshRun(.command("docker container restart \(service)"))
+            sshInteractive("docker container restart \(service)")
         }
     }
     

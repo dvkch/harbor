@@ -7,6 +7,7 @@
 
 import Foundation
 import ConsoleKit
+import LineNoise
 
 struct Prompt {
 
@@ -32,9 +33,36 @@ struct Prompt {
     }
     
     static func input(_ title: String, default: String? = nil) -> String {
-        Terminal().output("\(title) ", newLine: false)
-        let value = Terminal().input()
-        return value
+        let history = Config.shared.readInputHistory()
+
+        let ln = LineNoise()
+        ln.setHistoryMaxLength(100)
+        ln.preserveHistoryEdits = true
+        history.forEach { ln.addHistory($0) }
+
+        ln.setCompletionCallback { input in
+            return history.filter { $0.hasPrefix(input) }.reversed()
+        }
+        ln.setHintsCallback { input in
+            if let bestMatch = history.last(where: { $0.hasPrefix(input) })?.dropFirst(input.count), bestMatch.isNotEmpty {
+                return (String(bestMatch), (127, 0, 127))
+            }
+            else {
+                return (nil, nil)
+            }
+        }
+        
+        let input: String
+        do {
+            input = try ln.getLine(prompt: title + " ")
+        }
+        catch {
+            exit(0)
+        }
+        print("")
+
+        Config.shared.writeInputHistory(history + [input], maxItems: 200)
+        return input
     }
     
     static func confirm(_ title: String) -> Bool {

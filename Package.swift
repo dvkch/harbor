@@ -12,6 +12,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.1"),
         .package(url: "https://github.com/vapor/console-kit.git", from: "4.5.0"),
+        .package(url: "https://github.com/pcbeard/linenoise-swift.git", branch: "UTF-8-support")
     ],
     targets: [
         .executableTarget(
@@ -19,6 +20,7 @@ let package = Package(
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "ConsoleKit", package: "console-kit"),
+                .product(name: "LineNoise", package: "linenoise-swift"),
             ],
             resources: [
                 .copy("Resources")

@@ -10,6 +10,24 @@
       }
     },
     {
+      "identity" : "linenoise-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pcbeard/linenoise-swift.git",
+      "state" : {
+        "branch" : "UTF-8-support",
+        "revision" : "62c33e0d059cf8794ce97d9c212968778902f906"
+      }
+    },
+    {
+      "identity" : "nimble",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Nimble.git",
+      "state" : {
+        "revision" : "7a46a5fc86cb917f69e3daf79fcb045283d8f008",
+        "version" : "8.1.2"
+      }
+    },
+    {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",

@@ -9,7 +9,8 @@ import Foundation
 import ConsoleKit
 
 extension Terminal {
-    private func setupRawMode(fd: Int32) -> termios? {
+    
+    func obtainMode(fd: Int32) -> termios? {
         var originalTermSetting = termios()
         guard isatty(fd) != 0 else {
             return nil
@@ -18,15 +19,25 @@ extension Terminal {
         guard tcgetattr(fd, &originalTermSetting) >= 0 else {
             return nil
         }
+        return originalTermSetting
+    }
+    
+    @discardableResult
+    func setMode(_ mode: termios, fd: Int32) -> Bool {
+        var modeCopy = mode
+        return tcsetattr(fd, TCSAFLUSH, &modeCopy) >= 0
+    }
+    
+    private func setupRawMode(fd: Int32) -> termios? {
+        guard let originalTermSetting = obtainMode(fd: fd) else { return nil }
 
         var raw = originalTermSetting
         cfmakeraw(&raw)
         
-        guard tcsetattr(fd, TCSAFLUSH, &raw) >= 0 else {
-            return nil
+        if setMode(raw, fd: fd) {
+            return originalTermSetting
         }
-
-        return originalTermSetting
+        return nil
     }
     
     private func runInRawMode<T>(fd: Int32, _ task: @escaping () throws -> T) rethrows -> T {

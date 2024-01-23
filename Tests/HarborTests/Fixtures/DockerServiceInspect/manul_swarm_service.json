@@ -1,0 +1,194 @@
+[
+    {
+        "ID": "i3lusug29o72zlkkiiiqrlolm",
+        "Version": {
+            "Index": 42429901
+        },
+        "CreatedAt": "2023-06-22T20:47:57.013354735Z",
+        "UpdatedAt": "2024-01-22T12:04:34.822152258Z",
+        "Spec": {
+            "Name": "zii_worker",
+            "Labels": {
+                "com.docker.stack.image": "zii-research-thingies",
+                "com.docker.stack.namespace": "zii",
+                "traefik.enable": "false"
+            },
+            "TaskTemplate": {
+                "ContainerSpec": {
+                    "Image": "zii-research-thingies:latest",
+                    "Labels": {
+                        "com.docker.stack.namespace": "zii"
+                    },
+                    "Args": [
+                        "bundle",
+                        "exec",
+                        "sidekiq"
+                    ],
+                    "Hostname": "worker",
+                    "Env": [
+                        "APP_HOST=zii-research-thingies.syan.me",
+                        "DATABASE_URL=postgres://postgres:IJzDL3O3STZbkpjgZIqm@db:5432/zii-research-thingies",
+                        "RAILS_LOG_TO_STDOUT=1",
+                        "RAILS_MAX_THREADS=5",
+                        "REDIS_URL=redis://redis:6379/0",
+                        "REDIS_URL_CACHE=redis://redis:6379/1"
+                    ],
+                    "Privileges": {
+                        "CredentialSpec": null,
+                        "SELinuxContext": null
+                    },
+                    "StopGracePeriod": 10000000000,
+                    "Healthcheck": {
+                        "Test": [
+                            "CMD-SHELL",
+                            "ps ax | grep -v grep | grep sidekiq"
+                        ],
+                        "Interval": 60000000000,
+                        "StartPeriod": 60000000000
+                    },
+                    "DNSConfig": {},
+                    "Isolation": "default"
+                },
+                "Resources": {},
+                "RestartPolicy": {
+                    "Condition": "any",
+                    "Delay": 5000000000,
+                    "MaxAttempts": 0
+                },
+                "Placement": {},
+                "Networks": [
+                    {
+                        "Target": "g7gdvqiu4fkq2b93outwxfzte",
+                        "Aliases": [
+                            "worker"
+                        ]
+                    },
+                    {
+                        "Target": "tl50p89qja7yexbce09u82glr",
+                        "Aliases": [
+                            "worker"
+                        ]
+                    }
+                ],
+                "ForceUpdate": 0,
+                "Runtime": "container"
+            },
+            "Mode": {
+                "Replicated": {
+                    "Replicas": 1
+                }
+            },
+            "UpdateConfig": {
+                "Parallelism": 1,
+                "FailureAction": "pause",
+                "Monitor": 5000000000,
+                "MaxFailureRatio": 0,
+                "Order": "start-first"
+            },
+            "RollbackConfig": {
+                "Parallelism": 1,
+                "FailureAction": "pause",
+                "Monitor": 5000000000,
+                "MaxFailureRatio": 0,
+                "Order": "stop-first"
+            },
+            "EndpointSpec": {
+                "Mode": "vip"
+            }
+        },
+        "PreviousSpec": {
+            "Name": "zii_worker",
+            "Labels": {
+                "com.docker.stack.image": "zii-research-thingies",
+                "com.docker.stack.namespace": "zii",
+                "traefik.enable": "false"
+            },
+            "TaskTemplate": {
+                "ContainerSpec": {
+                    "Image": "zii-research-thingies:latest",
+                    "Labels": {
+                        "com.docker.stack.namespace": "zii"
+                    },
+                    "Args": [
+                        "bundle",
+                        "exec",
+                        "sidekiq"
+                    ],
+                    "Hostname": "worker",
+                    "Env": [
+                        "APP_HOST=zii-research-thingies.syan.me",
+                        "DATABASE_URL=postgres://postgres:IJzDL3O3STZbkpjgZIqm@db:5432/zii-research-thingies",
+                        "RAILS_LOG_TO_STDOUT=1",
+                        "RAILS_MAX_THREADS=5",
+                        "REDIS_URL=redis://redis:6379/0",
+                        "REDIS_URL_CACHE=redis://redis:6379/1"
+                    ],
+                    "Privileges": {
+                        "CredentialSpec": null,
+                        "SELinuxContext": null
+                    },
+                    "Healthcheck": {
+                        "Test": [
+                            "CMD-SHELL",
+                            "ps ax | grep -v grep | grep sidekiq"
+                        ],
+                        "Interval": 60000000000,
+                        "StartPeriod": 60000000000
+                    },
+                    "Isolation": "default"
+                },
+                "Resources": {},
+                "RestartPolicy": {
+                    "Condition": "any",
+                    "MaxAttempts": 0
+                },
+                "Placement": {},
+                "Networks": [
+                    {
+                        "Target": "g7gdvqiu4fkq2b93outwxfzte",
+                        "Aliases": [
+                            "worker"
+                        ]
+                    },
+                    {
+                        "Target": "tl50p89qja7yexbce09u82glr",
+                        "Aliases": [
+                            "worker"
+                        ]
+                    }
+                ],
+                "ForceUpdate": 0,
+                "Runtime": "container"
+            },
+            "Mode": {
+                "Replicated": {
+                    "Replicas": 1
+                }
+            },
+            "UpdateConfig": {
+                "Parallelism": 1,
+                "FailureAction": "pause",
+                "MaxFailureRatio": 0,
+                "Order": "start-first"
+            },
+            "EndpointSpec": {
+                "Mode": "vip"
+            }
+        },
+        "Endpoint": {
+            "Spec": {
+                "Mode": "vip"
+            },
+            "VirtualIPs": [
+                {
+                    "NetworkID": "g7gdvqiu4fkq2b93outwxfzte",
+                    "Addr": "10.0.1.23/24"
+                },
+                {
+                    "NetworkID": "tl50p89qja7yexbce09u82glr",
+                    "Addr": "10.0.4.9/24"
+                }
+            ]
+        }
+    }
+]

@@ -26,9 +26,9 @@ struct CommandDbBackup: ParsableCommand {
     
     mutating func run() throws {
         (self.environment, self.service) = Environment.selectService(env: env, service: service, filter: .db)
-        let config = environment.inspect(service: service, keys: [.image, .env])
-        let image = (config[.image] as? String)?.split(separator: ":").first
-        let tag = (config[.image] as? String)?.split(separator: ":").last
+        let config = environment.inspect(service: service)
+        let image = config.inspectableImage.split(separator: ":").first
+        let tag = config.inspectableImage.split(separator: ":").last
         guard let image = image, let tag = tag else {
             print("Couldn't detect image for service \(service!)")
             return
@@ -42,8 +42,8 @@ struct CommandDbBackup: ParsableCommand {
         
         switch image {
         case "postgres":
-            let user = ((config[.env] as? [String: String])?["POSTGRES_USER"] as? String) ?? "postgres"
-            guard let dbName = (config[.env] as? [String: String])?["POSTGRES_DB"] as? String else {
+            let user = config.inspectableEnv(for: "POSTGRES_USER") ?? "postgres"
+            guard let dbName = config.inspectableEnv(for: "POSTGRES_DB") else {
                 print("No POSTGRES_DB is defined for the service")
                 return
             }
@@ -53,15 +53,15 @@ struct CommandDbBackup: ParsableCommand {
             try! data.write(to: outputURL)
             
         case "myssql":
-            guard let user = (config[.env] as? [String: String])?["MYSQL_USER"] as? String else {
+            guard let user = config.inspectableEnv(for: "MYSQL_USER") else {
                 print("Couldn't find MYSQL_USER")
                 return
             }
-            guard let pass = (config[.env] as? [String: String])?["MYSQL_PASSWORD"] as? String else {
+            guard let pass = config.inspectableEnv(for: "MYSQL_PASSWORD") else {
                 print("Couldn't find MYSQL_PASSWORD")
                 return
             }
-            guard let db = (config[.env] as? [String: String])?["MYSQL_DATABASE"] as? String else {
+            guard let db = config.inspectableEnv(for: "MYSQL_DATABASE") else {
                 print("Couldn't find MYSQL_DATABASE")
                 return
             }

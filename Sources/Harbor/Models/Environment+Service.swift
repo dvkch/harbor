@@ -92,42 +92,17 @@ extension Environment {
         }
     }
     
-    enum InspectableValues {
-        case image, env
-    }
-    func inspect(service: String, keys: [InspectableValues]) -> [InspectableValues: Any] {
-        if keys.isEmpty {
-            print("No values to inspect, returning early")
-            return [:]
-        }
-
-        let rawData: String
+    func inspect(service: String) -> any Inspectable {
         switch provider {
         case .swarm:
-            rawData = sshList(.command("docker service inspect \(service)")).joined()
+            let rawJSON = sshList(.command("docker service inspect \(service)")).joined()
+            let rawData = rawJSON.data(using: .utf8)!
+            return try! JSONDecoder().decode([DockerServiceInspect].self, from: rawData)[0]
         case .compose:
-            rawData = sshList(.command("docker container inspect \(service)")).joined()
+            let rawJSON = sshList(.command("docker container inspect \(service)")).joined()
+            let rawData = rawJSON.data(using: .utf8)!
+            return try! JSONDecoder().decode([DockerContainerInspect].self, from: rawData)[0]
         }
-  
-        let json = try! JSONSerialization.jsonObject(with: rawData.data(using: .utf8)!) as! NSDictionary
-        var result = [InspectableValues: Any]()
-        
-        keys.forEach { key in
-            switch key {
-            case .image:
-                result[key] = json.dig([0, "Spec", "Labels", "com.docker.stack.image"]) ?? json.dig([0, "Config", "Image"])
-            case .env:
-                let rawValue = json.dig([0, "Spec", "TaskTemplate", "ContainerSpec", "Env"]) ?? json.dig([0, "Config", "Env"])
-                guard let value = rawValue as? [String] else {
-                    fatalError("Invalid data from env inspection")
-                }
-                result[key] = value
-                    .map { $0.split(separator: "=", maxSplits: 1).map { String($0) } }
-                    .reduce(into: [String: String]()) { $0[$1[0]] = $1[1] }
-            }
-        }
-  
-        return result
     }
     
     func exec(service: String, command: String, interactive: Bool = true) -> [String] {

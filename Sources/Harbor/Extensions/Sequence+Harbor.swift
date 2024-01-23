@@ -21,3 +21,14 @@ extension Collection {
         return filteredItems.count == 1 ? filteredItems.first : nil
     }
 }
+
+extension Collection where Element == String {
+    var parsedEnv: [(String, String)] {
+        return map { value in
+            guard value.contains("=") else { return (value, "") }
+
+            let parts = value.split(separator: "=", maxSplits: 1)
+            return (String(parts[0]), String(parts[1]))
+        }
+    }
+}

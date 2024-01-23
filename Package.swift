@@ -25,8 +25,11 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "Harbor-Tests",
-            dependencies: ["Harbor"]
+            name: "HarborTests",
+            dependencies: ["Harbor"],
+            resources: [
+                .copy("Fixtures")
+            ]
         ),
     ]
 )

@@ -1,0 +1,265 @@
+[
+    {
+        "Id": "5f8e22d1b79292a23f6eaeb938612e76a1460297d39f58e00ec023e7458560cf",
+        "Created": "2024-01-22T12:04:36.074346962Z",
+        "Path": "bash",
+        "Args": [
+            "/run.sh",
+            "--model",
+            "base-int8",
+            "--language",
+            "fr",
+            "--beam-size",
+            "2"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 3501,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2024-01-22T12:04:46.612027718Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:b6deec2eebbca35f27ff01a1caa2e8350cd5d75b2c51561f7f94cd3b769b5f92",
+        "ResolvConfPath": "/var/lib/docker/containers/5f8e22d1b79292a23f6eaeb938612e76a1460297d39f58e00ec023e7458560cf/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/5f8e22d1b79292a23f6eaeb938612e76a1460297d39f58e00ec023e7458560cf/hostname",
+        "HostsPath": "/var/lib/docker/containers/5f8e22d1b79292a23f6eaeb938612e76a1460297d39f58e00ec023e7458560cf/hosts",
+        "LogPath": "/var/lib/docker/containers/5f8e22d1b79292a23f6eaeb938612e76a1460297d39f58e00ec023e7458560cf/5f8e22d1b79292a23f6eaeb938612e76a1460297d39f58e00ec023e7458560cf-json.log",
+        "Name": "/whisper_whisper-fr.1.duasl6p7smeh4kn03b2mxv9vq",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": null,
+            "DnsSearch": null,
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "Isolation": "default",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": null,
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "KernelMemory": 0,
+            "KernelMemoryTCP": 0,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/var/apps/whisper/whisper-data-fr",
+                    "Target": "/data"
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/1b78f3c3d98a6a29fa51666e312129880857342a657063b1e5d13dcc18274075-init/diff:/var/lib/docker/overlay2/976d807dc8380b00c2da13ca5ad1af6ea6205f99d9e51ab30c274ea016018968/diff:/var/lib/docker/overlay2/d39e0f7f4622dbc9795d9f2f3d13dbcaf503694e68bc6bd89b6116aecf93f57b/diff:/var/lib/docker/overlay2/763b6e1598ce0b9153c67e057c6d749765cdecbbf40a49fb80b7e63bda1e636c/diff:/var/lib/docker/overlay2/3f7e4c3723f0465a4a17c38ca4a5ab527cf6ebd7a3af3532f0e5f08fdefdd436/diff",
+                "MergedDir": "/var/lib/docker/overlay2/1b78f3c3d98a6a29fa51666e312129880857342a657063b1e5d13dcc18274075/merged",
+                "UpperDir": "/var/lib/docker/overlay2/1b78f3c3d98a6a29fa51666e312129880857342a657063b1e5d13dcc18274075/diff",
+                "WorkDir": "/var/lib/docker/overlay2/1b78f3c3d98a6a29fa51666e312129880857342a657063b1e5d13dcc18274075/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/var/apps/whisper/whisper-data-fr",
+                "Destination": "/data",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "5f8e22d1b792",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "10300/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "TZ=Europe/Brussels",
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "--model",
+                "base-int8",
+                "--language",
+                "fr",
+                "--beam-size",
+                "2"
+            ],
+            "Image": "rhasspy/wyoming-whisper:latest@sha256:94b781af61a1b64b8d65c24ce7a818b080959d73abba9c72cd49eeb231b0f5c2",
+            "Volumes": null,
+            "WorkingDir": "/",
+            "Entrypoint": [
+                "bash",
+                "/run.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {
+                "com.docker.stack.namespace": "whisper",
+                "com.docker.swarm.node.id": "e3bhkbrspmgii5cz83cbpgc2i",
+                "com.docker.swarm.service.id": "iaucxs7qo5xay3sv3hrgoowne",
+                "com.docker.swarm.service.name": "whisper_whisper-fr",
+                "com.docker.swarm.task": "",
+                "com.docker.swarm.task.id": "duasl6p7smeh4kn03b2mxv9vq",
+                "com.docker.swarm.task.name": "whisper_whisper-fr.1.duasl6p7smeh4kn03b2mxv9vq"
+            }
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "9dd43576d1ad600e7976971e96a554aef0fcc4fbcf37f18ca32f1e7f5349bc37",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {
+                "10300/tcp": null
+            },
+            "SandboxKey": "/var/run/docker/netns/9dd43576d1ad",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "MacAddress": "",
+            "Networks": {
+                "ingress": {
+                    "IPAMConfig": {
+                        "IPv4Address": "10.0.0.16"
+                    },
+                    "Links": null,
+                    "Aliases": [
+                        "5f8e22d1b792"
+                    ],
+                    "NetworkID": "vi95es33fxm0dslm8ncofbxtq",
+                    "EndpointID": "723d2e9b308eb96b97d46821a8759f6324b2239e1c2376350f8325660cdc7658",
+                    "Gateway": "",
+                    "IPAddress": "10.0.0.16",
+                    "IPPrefixLen": 24,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:0a:00:00:10",
+                    "DriverOpts": null
+                },
+                "whisper_default": {
+                    "IPAMConfig": {
+                        "IPv4Address": "10.0.6.6"
+                    },
+                    "Links": null,
+                    "Aliases": [
+                        "5f8e22d1b792"
+                    ],
+                    "NetworkID": "mtli9zg17vjvad1gijv5fxc73",
+                    "EndpointID": "543b839b13640b7587638431e5c7d75138ad391fd3f9c6560dc98e840469c1cd",
+                    "Gateway": "",
+                    "IPAddress": "10.0.6.6",
+                    "IPPrefixLen": 24,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:0a:00:06:06",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]

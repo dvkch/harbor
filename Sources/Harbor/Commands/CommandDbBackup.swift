@@ -16,7 +16,6 @@ struct CommandDbBackup: ParsableCommand {
     
     @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
-    var environment: Environment!
     
     @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .db) }))
     var service: String!
@@ -25,12 +24,16 @@ struct CommandDbBackup: ParsableCommand {
     var filename: String!
     
     mutating func run() throws {
-        (self.environment, self.service) = Environment.selectService(env: env, service: service, filter: .db)
+        let environment: Environment
+        let service: any Serviceable
+        (environment, service) = Environment.selectService(env: env, service: self.service, filter: .db)
+
         let config = environment.inspect(service: service)
         let image = config.inspectableImage.split(separator: ":").first
         let tag = config.inspectableImage.split(separator: ":").last
-        guard let image = image, let tag = tag else {
-            print("Couldn't detect image for service \(service!)")
+
+        guard let image, let tag else {
+            print("Couldn't detect image for service \(service.serviceDisplayName)")
             return
         }
         

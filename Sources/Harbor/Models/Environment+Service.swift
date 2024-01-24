@@ -25,48 +25,50 @@ extension Environment {
         return selectedEnv
     }
 
-    static func selectService(env envName: String?, service serviceName: String?, filter: ServiceFilter) -> (Environment, String) {
+    static func selectService(env envName: String?, service serviceName: String?, filter: ServiceFilter) -> (Environment, any Serviceable) {
         let selectedEnv = selectEnvironment(env: envName)
         
         // select service
-        let services = selectedEnv.services(filter: filter)
-        let selectedService: String
-        if let serviceName, let service = services.unique(where: { $0.hasPrefix(serviceName) }) {
+        let services: [any Serviceable] = selectedEnv.services(filter: filter)
+        let selectedService: any Serviceable
+        if let serviceName, let service = services.unique(where: { $0.serviceDisplayName.hasPrefix(serviceName) }) {
             selectedService = service
         }
         else {
-            selectedService = Prompt.choice("Select the service:", options: services)
+            selectedService = Prompt.choice("Select the service:", services: services)
         }
 
         return (selectedEnv, selectedService)
     }
 
-    func services(filter: ServiceFilter) -> [String] {
+    func services(filter: ServiceFilter) -> [any Serviceable] {
         let command: String
+        var services: [any Serviceable]
+
         switch provider {
         case .swarm:
             command = "docker service ls --format '{{.Name}}'"
+            services = sshList(.command(command)).sorted()
         case .compose:
             command = "docker container ls --format '{{.Names}}'"
+            services = sshList(.command(command)).sorted()
         }
         
-        var services = sshList(.command(command)).sorted()
-        
         // cleanup k8s ix services
-        if services.first(where: { $0.starts(with: "k8s_") }) != nil {
+        if services.first(where: { $0.serviceDisplayName.starts(with: "k8s_") }) != nil {
             services = services
-                .filter { !$0.contains("_POD_") }
-                .filter { !$0.contains("_kube-system_") }
+                .filter { !$0.serviceDisplayName.contains("_POD_") }
+                .filter { !$0.serviceDisplayName.contains("_kube-system_") }
         }
         
         switch filter {
         case .sensitiveOperation:
             services = services
-                .filter { !$0.contains("traefik") }
-                .filter { !$0.contains("nginx") }
+                .filter { !$0.serviceDisplayName.contains("traefik") }
+                .filter { !$0.serviceDisplayName.contains("nginx") }
         case .db:
             services = services
-                .filter { $0.contains("_db") }
+                .filter { $0.serviceDisplayName.contains("_db") }
         case .none:
             break
         }
@@ -74,46 +76,47 @@ extension Environment {
         return services
     }
     
-    func logs(service: String, follow: Bool, tail: Int) {
+    func logs(service s: any Serviceable, follow: Bool, tail: Int) {
         let followFlag = follow ? "-f" : ""
+        let args = "\(followFlag) --tail \(tail)"
         switch provider {
         case .swarm:
-            sshRun(.command("docker service logs \(service) \(followFlag) --tail \(tail)"))
+            sshRun(.command("docker service logs \(s.serviceName) \(args)"))
         case .compose:
-            sshRun(.command("docker container logs \(service) \(followFlag) --tail \(tail)"))
+            sshRun(.command("docker container logs \(s.serviceName) \(args)"))
         }
     }
   
-    func reload(service: String) {
+    func reload(service: any Serviceable) {
         switch provider {
         case .swarm:
-            sshInteractive("docker service update \(service) --force")
+            sshInteractive("docker service update \(service.serviceName) --force")
         case .compose:
-            sshInteractive("docker container restart \(service)")
+            sshInteractive("docker container restart \(service.serviceName)")
         }
     }
     
-    func inspect(service: String) -> any Inspectable {
+    func inspect(service: any Serviceable) -> any Inspectable {
         switch provider {
         case .swarm:
-            let rawJSON = sshList(.command("docker service inspect \(service)")).joined()
+            let rawJSON = sshList(.command("docker service inspect \(service.serviceName)")).joined()
             let rawData = rawJSON.data(using: .utf8)!
-            return try! JSONDecoder().decode([DockerServiceInspect].self, from: rawData)[0]
+            return try! JSONDecoder().decode([DockerService].self, from: rawData)[0]
         case .compose:
-            let rawJSON = sshList(.command("docker container inspect \(service)")).joined()
+            let rawJSON = sshList(.command("docker container inspect \(service.serviceName)")).joined()
             let rawData = rawJSON.data(using: .utf8)!
-            return try! JSONDecoder().decode([DockerContainerInspect].self, from: rawData)[0]
+            return try! JSONDecoder().decode([DockerContainer].self, from: rawData)[0]
         }
     }
     
     @discardableResult
-    func exec(service: String, command: String, interactive: Bool = true, redirectOutputPath: String? = nil) -> [String] {
+    func exec(service: any Serviceable, command: String, interactive: Bool = true, redirectOutputPath: String? = nil) -> [String] {
         switch provider {
         case .swarm:
             // https://www.reddit.com/r/docker/comments/a5kbte/comment/ebp9kab/?utm_source=share&utm_medium=web2x&context=3
             let script = [
                 "#!/bin/bash",
-                "TASK_ID=$(docker service ps --filter 'desired-state=running' \(service) -q)",
+                "TASK_ID=$(docker service ps --filter 'desired-state=running' \(service.serviceName) -q)",
                 "NODE_ID=$(docker inspect --format '{{ .NodeID }}' $TASK_ID)",
                 "CONTAINER_ID=$(docker inspect --format '{{ .Status.ContainerStatus.ContainerID }}' $TASK_ID)",
                 "NODE_HOST=$(docker node inspect --format '{{ .Description.Hostname }}' $NODE_ID)",
@@ -126,7 +129,7 @@ extension Environment {
             let containerID = info[1]
             
             guard let nodeHost = nodes?[nodeName] else {
-                print("Found node named \(nodeName) for service \(service), but couldn't find corresponding host, check your config file")
+                print("Found node named \(nodeName) for service \(service.serviceDisplayName), but couldn't find corresponding host, check your config file")
                 exit(-1)
             }
 
@@ -141,11 +144,11 @@ extension Environment {
                 
         case .compose:
             if interactive {
-                sshInteractive("docker exec -it \(service) \(command)")
+                sshInteractive("docker exec -it \(service.serviceName) \(command)")
                 return []
             }
             else {
-                return sshList(.command("docker exec -i \(service) \(command)"), redirectOutputPath: redirectOutputPath)
+                return sshList(.command("docker exec -i \(service.serviceName) \(command)"), redirectOutputPath: redirectOutputPath)
             }
         }
     }

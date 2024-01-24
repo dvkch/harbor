@@ -1,5 +1,5 @@
 //
-//  DockerServiceInspect.swift
+//  DockerService.swift
 //
 //
 //  Created by syan on 23/01/2024.
@@ -8,7 +8,7 @@
 import Foundation
 
 // https://docs.docker.com/engine/api/v1.42/#tag/Service/operation/ServiceInspect
-struct DockerServiceInspect: Decodable {
+struct DockerService: Decodable {
     let id: String
     let createdAt: String
     let updatedAt: String
@@ -162,4 +162,12 @@ struct DockerServiceInspect: Decodable {
     }
 }
 
-
+extension DockerService: Inspectable {
+    var inspectableImage: String {
+        return (spec.labels ?? [:])["com.docker.stack.image"]!
+    }
+    
+    var inspectableEnv: [(String, String)] {
+        return spec.taskTemplate.containerSpec.env?.parsedEnv ?? []
+    }
+}

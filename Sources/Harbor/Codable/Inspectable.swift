@@ -17,23 +17,3 @@ extension Inspectable {
         return inspectableEnv.last(where: { $0.0 == key })?.1
     }
 }
-
-extension DockerContainerInspect: Inspectable {
-    var inspectableImage: String {
-        return image
-    }
-    
-    var inspectableEnv: [(String, String)] {
-        return config.env.parsedEnv
-    }
-}
-
-extension DockerServiceInspect: Inspectable {
-    var inspectableImage: String {
-        return (spec.labels ?? [:])["com.docker.stack.image"]!
-    }
-    
-    var inspectableEnv: [(String, String)] {
-        return spec.taskTemplate.containerSpec.env?.parsedEnv ?? []
-    }
-}

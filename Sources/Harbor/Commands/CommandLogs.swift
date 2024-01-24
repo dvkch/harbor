@@ -16,7 +16,6 @@ struct CommandLogs: ParsableCommand {
     
     @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
-    var environment: Environment!
     
     @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .none) }))
     var service: String!
@@ -28,9 +27,12 @@ struct CommandLogs: ParsableCommand {
     var noStream: Bool = false
 
     mutating func run() throws {
-        (self.environment, self.service) = Environment.selectService(env: env, service: service, filter: .none)
+        let environment: Environment
+        let service: any Serviceable
+        (environment, service) = Environment.selectService(env: env, service: self.service, filter: .none)
+
         print("")
-        print("Streaming logs from \(environment.name)/\(service!)...")
+        print("Streaming logs from \(environment.name)/\(service.serviceDisplayName)...")
         environment.logs(service: service, follow: !noStream, tail: tail)
     }
 }

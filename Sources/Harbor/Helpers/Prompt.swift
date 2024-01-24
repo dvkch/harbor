@@ -18,7 +18,15 @@ struct Prompt {
         
         return Terminal().showOptions(title: title, options: options, display: { $0.description })
     }
-    
+
+    static func choice(_ title: String, services: [any Serviceable]) -> any Serviceable {
+        if services.count == 1 {
+            return services[0]
+        }
+        
+        return Terminal().showOptions(title: title, options: services, display: { $0.description })
+    }
+
     static func choice<E: CaseIterable & RawRepresentable & CustomStringConvertible>(_ title: String, options: E.Type) -> E {
         return choice(title, options: E.allCases.map { $0 })
     }

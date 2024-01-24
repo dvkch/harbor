@@ -18,18 +18,18 @@ final class HarborTests: XCTestCase {
         return files
     }
     
-    func testCodable<T: Decodable>(type: T.Type) throws {
-        for file in obtainFixtureFiles(path: String(describing: type)) {
+    func testCodable<T: Decodable>(folder: String, type: T.Type) throws {
+        for file in obtainFixtureFiles(path: folder) {
             print(file.deletingLastPathComponent().lastPathComponent, ">", file.lastPathComponent)
             let data = try! Data(contentsOf: file)
             let decoder = JSONDecoder()
-            _ = try decoder.decode([T].self, from: data)
+            _ = try decoder.decode(T.self, from: data)
         }
     }
     
     func testCodables() throws {
-        try testCodable(type: DockerContainerInspect.self)
-        try testCodable(type: DockerServiceInspect.self)
+        try testCodable(folder: "DockerContainer", type: [DockerContainer].self)
+        try testCodable(folder: "DockerService", type: [DockerService].self)
     }
 }
 

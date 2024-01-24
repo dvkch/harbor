@@ -1,5 +1,5 @@
 //
-//  DockerContainerInspect.swift
+//  DockerContainer.swift
 //
 //
 //  Created by syan on 23/01/2024.
@@ -8,7 +8,7 @@
 import Foundation
 
 // https://docs.docker.com/engine/api/v1.42/#tag/Container/operation/ContainerInspect
-struct DockerContainerInspect: Decodable {
+struct DockerContainer: Decodable {
     let id: String
     let created: String
     let path: String
@@ -215,5 +215,15 @@ struct DockerContainerInspect: Decodable {
         case mounts = "Mounts"
         case config = "Config"
         case networkSettings = "NetworkSettings"
+    }
+}
+
+extension DockerContainer: Inspectable {
+    var inspectableImage: String {
+        return image
+    }
+    
+    var inspectableEnv: [(String, String)] {
+        return config.env.parsedEnv
     }
 }

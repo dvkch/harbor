@@ -22,10 +22,12 @@ struct CommandReload: ParsableCommand {
     var service: String!
     
     mutating func run() throws {
-        (self.environment, self.service) = Environment.selectService(env: env, service: service, filter: .none)
+        let environment: Environment
+        let service: any Serviceable
+        (environment, service) = Environment.selectService(env: env, service: self.service, filter: .none)
         
         print("")
-        print("Will now restart \(environment.name)/\(service!)...")
+        print("Will now restart \(environment.name)/\(service.serviceDisplayName)...")
         environment.reload(service: service)
     }
 }

@@ -14,6 +14,6 @@ extension Environment {
     
     static func generateServiceCompletion(_ input: String?, env: String?, filter: ServiceFilter) -> [String] {
         let environment = Config.shared.environments.first(where: { $0.alias == env })
-        return environment?.services(filter: filter).filter { $0.starts(with: input ?? "") } ?? []
+        return environment?.services(filter: filter).map(\.serviceDisplayName).filter { $0.starts(with: input ?? "") } ?? []
     }
 }

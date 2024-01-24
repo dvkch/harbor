@@ -274,6 +274,10 @@ extension KubernetesDeployment: Serviceable {
     var serviceNamespace: String {
         return metadata.namespace
     }
+    
+    var serviceDeployment: String {
+        return "deployment/" + metadata.name
+    }
 }
 
 extension KubernetesDeployment: Inspectable {

@@ -63,31 +63,31 @@ class HarborRunTests: XCTestCase {
     }
 }
 
-class HarborStatsTests: HarborRunTests {
+class HarborSwarmStatsTests: HarborRunTests {
     override var args: [String] {
         return ["stats", "vps", "--no-stream"]
     }
 }
 
-class HarborExecTests: HarborRunTests {
+class HarborSwarmExecTests: HarborRunTests {
     override var args: [String] {
         return  ["exec", "vps", "hapier_app", "rails db:migrate"]
     }
 }
 
-class HarborLogsTests: HarborRunTests {
+class HarborSwarmLogsTests: HarborRunTests {
     override var args: [String] {
         return ["logs", "vps", "hapier_app", "--no-stream"]
     }
 }
 
-class HarborReloadTests: HarborRunTests {
+class HarborSwarmReloadTests: HarborRunTests {
     override var args: [String] {
         return ["reload", "vps", "ota_app"]
     }
 }
 
-class HarborDbBackupTests: HarborRunTests {
+class HarborSwarmDbBackupTests: HarborRunTests {
     override var args: [String] {
         return ["db-backup", "vps", "hapier_db", "hapier.dump"]
     }
@@ -109,5 +109,29 @@ class HarborDbBackupTests: HarborRunTests {
         XCTAssert(sql[0] == "--")
         XCTAssert(sql[1] == "-- PostgreSQL database dump")
         XCTAssert(sql[2] == "--")
+    }
+}
+
+class HarborK3sStatsTests: HarborRunTests {
+    override var args: [String] {
+        return ["stats", "nas", "--no-stream"]
+    }
+}
+
+class HarborK3sExecTests: HarborRunTests {
+    override var args: [String] {
+        return  ["exec", "nas", "plex", "/bin/sh -c 'echo test'"]
+    }
+}
+
+class HarborK3sLogsTests: HarborRunTests {
+    override var args: [String] {
+        return ["logs", "nas", "plex", "--no-stream"]
+    }
+}
+
+class HarborK3sReloadTests: HarborRunTests {
+    override var args: [String] {
+        return ["reload", "nas", "sane"]
     }
 }

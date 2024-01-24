@@ -53,10 +53,10 @@ extension Environment {
             command = "docker container ls --format '{{.Names}}'"
             services = sshList(.command(command)).sorted()
         case .k3s:
-            command = "k3s kubectl get pod --recursive --all-namespaces --output=json"
+            command = "k3s kubectl get deployment --recursive --all-namespaces --output=json"
             let servicesData = sshList(.command(command)).joined(separator: "\n").data(using: .utf8)!
-            let servicesJson = try! JSONDecoder().decode(KubernetesList<KubernetesPod>.self, from: servicesData)
-            services = servicesJson.items.filter({ $0.serviceNamespace != "kube-system" && $0.status.either != nil })
+            let servicesJson = try! JSONDecoder().decode(KubernetesList<KubernetesDeployment>.self, from: servicesData)
+            services = servicesJson.items.filter({ $0.serviceNamespace != "kube-system" && $0.status.readyReplicas != nil })
         }
         
         switch filter {
@@ -95,7 +95,7 @@ extension Environment {
         case .compose:
             sshInteractive("docker container restart \(service.serviceName)")
         case .k3s:
-            sshInteractive("k3s kubectl rollout restart \(service.serviceDeployment) -n \(service.serviceNamespace)")
+            sshInteractive("k3s kubectl rollout restart \(service.serviceName) -n \(service.serviceNamespace)")
         }
     }
     
@@ -110,7 +110,7 @@ extension Environment {
             let rawData = rawJSON.data(using: .utf8)!
             return try! JSONDecoder().decode([DockerContainer].self, from: rawData)[0]
         case .k3s:
-            return service as! KubernetesPod
+            return service as! KubernetesDeployment
         }
     }
     

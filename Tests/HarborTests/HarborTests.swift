@@ -31,7 +31,6 @@ final class HarborTests: XCTestCase {
         try testCodable(folder: "DockerContainer", type: [DockerContainer].self)
         try testCodable(folder: "DockerService", type: [DockerService].self)
         try testCodable(folder: "KubernetesDeployments", type: KubernetesList<KubernetesDeployment>.self)
-        try testCodable(folder: "KubernetesPods", type: KubernetesList<KubernetesPod>.self)
     }
 }
 

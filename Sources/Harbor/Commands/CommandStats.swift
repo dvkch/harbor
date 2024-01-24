@@ -17,25 +17,31 @@ struct CommandStats: ParsableCommand {
     
     @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
-    var environment: Environment!
     
     @Flag(help: "Print only first output instead of streaming")
     var noStream: Bool = false
     
     mutating func run() throws {
-        self.environment = Environment.selectEnvironment(env: env)
+        var environment = Environment.selectEnvironment(env: env)
         
-        if environment.provider == .swarm {
+        let dockerStreamFlag = noStream ? "--no-stream" : ""
+        
+        let command: String
+
+        switch environment.provider {
+        case .compose:
+            command = "docker stats \(dockerStreamFlag)"
+
+        case .swarm:
+            command = "docker stats \(dockerStreamFlag)"
             let nodeHost = Prompt.choice("Select your node:", optionsWithTitleKeys: environment.nodes ?? [:])
-            self.environment = self.environment.copy(newHost: nodeHost)
+            environment = environment.copy(newHost: nodeHost)
+
+        case .k3s:
+            command = "k3s kubectl top pod --all-namespaces"
         }
         
-        var command = "docker stats"
-        if noStream {
-            command += " --no-stream"
-        }
-        
-        environment.sshRun(.command(command))
+        environment.sshInteractive(command)
     }
 }
 

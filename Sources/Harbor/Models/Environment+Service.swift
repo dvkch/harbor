@@ -52,13 +52,11 @@ extension Environment {
         case .compose:
             command = "docker container ls --format '{{.Names}}'"
             services = sshList(.command(command)).sorted()
-        }
-        
-        // cleanup k8s ix services
-        if services.first(where: { $0.serviceDisplayName.starts(with: "k8s_") }) != nil {
-            services = services
-                .filter { !$0.serviceDisplayName.contains("_POD_") }
-                .filter { !$0.serviceDisplayName.contains("_kube-system_") }
+        case .k3s:
+            command = "k3s kubectl get deployment --recursive --all-namespaces --output=json"
+            let servicesData = sshList(.command(command)).joined(separator: "\n").data(using: .utf8)!
+            let servicesJson = try! JSONDecoder().decode(KubernetesList<KubernetesDeployment>.self, from: servicesData)
+            services = servicesJson.items.filter({ $0.metadata.namespace != "kube-system" && $0.status.replicas != nil })
         }
         
         switch filter {
@@ -84,6 +82,9 @@ extension Environment {
             sshRun(.command("docker service logs \(s.serviceName) \(args)"))
         case .compose:
             sshRun(.command("docker container logs \(s.serviceName) \(args)"))
+        case .k3s:
+            let cmd = "k3s kubectl logs \(s.serviceName) -n \(s.serviceNamespace) --all-containers=true \(args)"
+            sshRun(.command(cmd))
         }
     }
   
@@ -93,6 +94,8 @@ extension Environment {
             sshInteractive("docker service update \(service.serviceName) --force")
         case .compose:
             sshInteractive("docker container restart \(service.serviceName)")
+        case .k3s:
+            sshInteractive("k3s kubectl rollout restart \(service.serviceName) -n \(service.serviceNamespace)")
         }
     }
     
@@ -106,6 +109,8 @@ extension Environment {
             let rawJSON = sshList(.command("docker container inspect \(service.serviceName)")).joined()
             let rawData = rawJSON.data(using: .utf8)!
             return try! JSONDecoder().decode([DockerContainer].self, from: rawData)[0]
+        case .k3s:
+            return service as! KubernetesDeployment
         }
     }
     
@@ -150,6 +155,9 @@ extension Environment {
             else {
                 return sshList(.command("docker exec -i \(service.serviceName) \(command)"), redirectOutputPath: redirectOutputPath)
             }
+            
+        case .k3s:
+            fatalError("NOT IMPLEMENTED")
         }
     }
 }

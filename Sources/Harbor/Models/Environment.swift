@@ -31,6 +31,7 @@ struct Environment: Codable {
     enum Provider: String, Codable {
         case compose = "compose"
         case swarm = "swarm"
+        case k3s = "k3s"
     }
     
     func copy(newHost: String) -> Environment {

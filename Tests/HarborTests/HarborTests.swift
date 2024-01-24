@@ -30,6 +30,7 @@ final class HarborTests: XCTestCase {
     func testCodables() throws {
         try testCodable(folder: "DockerContainer", type: [DockerContainer].self)
         try testCodable(folder: "DockerService", type: [DockerService].self)
+        try testCodable(folder: "KubernetesDeployments", type: KubernetesList<KubernetesDeployment>.self)
     }
 }
 

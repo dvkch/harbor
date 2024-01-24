@@ -1,0 +1,2046 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "38",
+                    "meta.helm.sh/release-name": "softether",
+                    "meta.helm.sh/release-namespace": "ix-softether"
+                },
+                "creationTimestamp": "2023-01-14T02:01:12Z",
+                "generation": 57,
+                "labels": {
+                    "app.kubernetes.io/instance": "softether",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "ix-chart",
+                    "app.kubernetes.io/version": "v1",
+                    "helm.sh/chart": "ix-chart-2308.0.1"
+                },
+                "name": "softether-ix-chart",
+                "namespace": "ix-softether",
+                "resourceVersion": "27745513",
+                "uid": "17aff529-6018-428f-9f4c-c444cd484943"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 0,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app.kubernetes.io/instance": "softether",
+                        "app.kubernetes.io/name": "ix-chart"
+                    }
+                },
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "rollme": "VVTxC"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/instance": "softether",
+                            "app.kubernetes.io/name": "ix-chart"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "VPNCMD_HUB",
+                                        "value": "NatSet /MTU:1400"
+                                    }
+                                ],
+                                "image": "siomiz/softethervpn:debian",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ix-chart",
+                                "resources": {
+                                    "limits": {
+                                        "amd.com/gpu": "0",
+                                        "gpu.intel.com/i915": "0",
+                                        "nvidia.com/gpu": "0"
+                                    }
+                                },
+                                "securityContext": {
+                                    "capabilities": {
+                                        "add": [
+                                            "NET_ADMIN"
+                                        ]
+                                    },
+                                    "privileged": false
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/opt/vpn_server.config",
+                                        "name": "ix-host-path-softether-0"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsConfig": {},
+                        "dnsPolicy": "Default",
+                        "hostNetwork": true,
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/home/vpnserver/vpnserver/vpn_server.config",
+                                    "type": ""
+                                },
+                                "name": "ix-host-path-softether-0"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-08-21T18:02:12Z",
+                        "lastUpdateTime": "2023-08-21T18:02:12Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2023-01-14T02:01:12Z",
+                        "lastUpdateTime": "2023-11-25T22:39:21Z",
+                        "message": "ReplicaSet \"softether-ix-chart-6775c48944\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 57
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "18",
+                    "meta.helm.sh/release-name": "transmission",
+                    "meta.helm.sh/release-namespace": "ix-transmission"
+                },
+                "creationTimestamp": "2023-01-14T01:44:10Z",
+                "generation": 29,
+                "labels": {
+                    "app.kubernetes.io/instance": "transmission",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "ix-chart",
+                    "app.kubernetes.io/version": "v1",
+                    "helm.sh/chart": "ix-chart-2308.0.1"
+                },
+                "name": "transmission-ix-chart",
+                "namespace": "ix-transmission",
+                "resourceVersion": "35979926",
+                "uid": "621a0f4c-fb3d-40b8-94e3-95f105bf0648"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app.kubernetes.io/instance": "transmission",
+                        "app.kubernetes.io/name": "ix-chart"
+                    }
+                },
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "rollme": "de0Xl"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/instance": "transmission",
+                            "app.kubernetes.io/name": "ix-chart"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "PUID",
+                                        "value": "1000"
+                                    },
+                                    {
+                                        "name": "GUID",
+                                        "value": "100"
+                                    },
+                                    {
+                                        "name": "TZ",
+                                        "value": "Europe/Paris"
+                                    },
+                                    {
+                                        "name": "TRANSMISSION_WEB_HOME_DEPRECATED",
+                                        "value": "/combustion-release/"
+                                    }
+                                ],
+                                "image": "registry.syan.me/nas-transmission:latest_amd64",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ix-chart",
+                                "ports": [
+                                    {
+                                        "containerPort": 9091,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 58018,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 58018,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "amd.com/gpu": "0",
+                                        "gpu.intel.com/i915": "0",
+                                        "nvidia.com/gpu": "0"
+                                    }
+                                },
+                                "securityContext": {
+                                    "privileged": false
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/downloads",
+                                        "name": "ix-host-path-transmission-0"
+                                    },
+                                    {
+                                        "mountPath": "/videos",
+                                        "name": "ix-host-path-transmission-1"
+                                    },
+                                    {
+                                        "mountPath": "/config",
+                                        "name": "ix-host-volume-transmission-config"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsConfig": {},
+                        "dnsPolicy": "Default",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/Downloads",
+                                    "type": ""
+                                },
+                                "name": "ix-host-path-transmission-0"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/external/Videos",
+                                    "type": ""
+                                },
+                                "name": "ix-host-path-transmission-1"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/transmission/volumes/ix_volumes/config",
+                                    "type": ""
+                                },
+                                "name": "ix-host-volume-transmission-config"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-01-14T01:44:10Z",
+                        "lastUpdateTime": "2023-11-25T15:43:14Z",
+                        "message": "ReplicaSet \"transmission-ix-chart-6996f46b69\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2024-01-20T15:27:57Z",
+                        "lastUpdateTime": "2024-01-20T15:27:57Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 29,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "19",
+                    "meta.helm.sh/release-name": "sane",
+                    "meta.helm.sh/release-namespace": "ix-sane"
+                },
+                "creationTimestamp": "2023-01-14T01:24:51Z",
+                "generation": 35,
+                "labels": {
+                    "app.kubernetes.io/instance": "sane",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "ix-chart",
+                    "app.kubernetes.io/version": "v1",
+                    "helm.sh/chart": "ix-chart-2308.0.1"
+                },
+                "name": "sane-ix-chart",
+                "namespace": "ix-sane",
+                "resourceVersion": "35979947",
+                "uid": "731b70b8-c538-4830-b386-6fd7eda06492"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app.kubernetes.io/instance": "sane",
+                        "app.kubernetes.io/name": "ix-chart"
+                    }
+                },
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "rollme": "4KI9v"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/instance": "sane",
+                            "app.kubernetes.io/name": "ix-chart"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "SANE_DEBUG_SANED",
+                                        "value": "128"
+                                    }
+                                ],
+                                "image": "registry.syan.me/nas-sane:latest_amd64",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ix-chart",
+                                "resources": {
+                                    "limits": {
+                                        "gpu.intel.com/i915": "0"
+                                    }
+                                },
+                                "securityContext": {
+                                    "privileged": true
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/dev/bus/usb",
+                                        "name": "ix-host-path-sane-0"
+                                    },
+                                    {
+                                        "mountPath": "/var/run/dbus",
+                                        "name": "ix-host-path-sane-1"
+                                    },
+                                    {
+                                        "mountPath": "/var/run/avahi-daemon",
+                                        "name": "ix-host-path-sane-2"
+                                    },
+                                    {
+                                        "mountPath": "/etc/sane.d",
+                                        "name": "ix-host-volume-sane-saned"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsConfig": {},
+                        "dnsPolicy": "Default",
+                        "hostNetwork": true,
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/dev/bus/usb",
+                                    "type": ""
+                                },
+                                "name": "ix-host-path-sane-0"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-volume-sane-dbus",
+                                    "type": ""
+                                },
+                                "name": "ix-host-path-sane-1"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-volume-sane-avahi",
+                                    "type": ""
+                                },
+                                "name": "ix-host-path-sane-2"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/sane/volumes/ix_volumes/saned",
+                                    "type": ""
+                                },
+                                "name": "ix-host-volume-sane-saned"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-01-14T01:24:51Z",
+                        "lastUpdateTime": "2023-11-25T15:44:24Z",
+                        "message": "ReplicaSet \"sane-ix-chart-5d65cc84db\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2024-01-20T15:27:58Z",
+                        "lastUpdateTime": "2024-01-20T15:27:58Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 35,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "32",
+                    "meta.helm.sh/release-name": "hass",
+                    "meta.helm.sh/release-namespace": "ix-hass"
+                },
+                "creationTimestamp": "2023-07-29T00:54:41Z",
+                "generation": 66,
+                "labels": {
+                    "app.kubernetes.io/instance": "hass",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "ix-chart",
+                    "app.kubernetes.io/version": "v1",
+                    "helm.sh/chart": "ix-chart-2308.0.1"
+                },
+                "name": "hass-ix-chart",
+                "namespace": "ix-hass",
+                "resourceVersion": "35980010",
+                "uid": "efc95bef-78ab-4965-88d5-384eafc303a2"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app.kubernetes.io/instance": "hass",
+                        "app.kubernetes.io/name": "ix-chart"
+                    }
+                },
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "rollme": "dULO3"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/instance": "hass",
+                            "app.kubernetes.io/name": "ix-chart"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "TZ",
+                                        "value": "Etc/UTC"
+                                    }
+                                ],
+                                "image": "ghcr.io/home-assistant/home-assistant:stable",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ix-chart",
+                                "ports": [
+                                    {
+                                        "containerPort": 20123,
+                                        "hostPort": 20123,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "gpu.intel.com/i915": "0"
+                                    }
+                                },
+                                "securityContext": {
+                                    "privileged": false
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/media/usb",
+                                        "name": "ix-host-path-hass-0"
+                                    },
+                                    {
+                                        "mountPath": "/config",
+                                        "name": "ix-host-volume-hass-config"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsConfig": {},
+                        "dnsPolicy": "Default",
+                        "hostNetwork": true,
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/Linux/hass-medias",
+                                    "type": ""
+                                },
+                                "name": "ix-host-path-hass-0"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/hass/volumes/ix_volumes/config",
+                                    "type": ""
+                                },
+                                "name": "ix-host-volume-hass-config"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-07-29T00:54:41Z",
+                        "lastUpdateTime": "2023-12-16T09:04:31Z",
+                        "message": "ReplicaSet \"hass-ix-chart-545b9b5cf7\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2024-01-20T15:28:05Z",
+                        "lastUpdateTime": "2024-01-20T15:28:05Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 66,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "8",
+                    "meta.helm.sh/release-name": "hass-whisper",
+                    "meta.helm.sh/release-namespace": "ix-hass-whisper"
+                },
+                "creationTimestamp": "2023-10-26T23:15:59Z",
+                "generation": 12,
+                "labels": {
+                    "app.kubernetes.io/instance": "hass-whisper",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "ix-chart",
+                    "app.kubernetes.io/version": "v1",
+                    "helm.sh/chart": "ix-chart-2308.0.1"
+                },
+                "name": "hass-whisper-ix-chart",
+                "namespace": "ix-hass-whisper",
+                "resourceVersion": "35980034",
+                "uid": "1f544f05-bb22-4d8b-92f3-e4d1e917f3ce"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app.kubernetes.io/instance": "hass-whisper",
+                        "app.kubernetes.io/name": "ix-chart"
+                    }
+                },
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "rollme": "UzC89"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/instance": "hass-whisper",
+                            "app.kubernetes.io/name": "ix-chart"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "--language",
+                                    "en",
+                                    "--model",
+                                    "tiny"
+                                ],
+                                "image": "rhasspy/wyoming-whisper:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ix-chart",
+                                "ports": [
+                                    {
+                                        "containerPort": 10300,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "gpu.intel.com/i915": "0"
+                                    }
+                                },
+                                "securityContext": {
+                                    "privileged": false
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/data",
+                                        "name": "ix-host-volume-hass-whisper-data"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsConfig": {},
+                        "dnsPolicy": "Default",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/hass-whisper/volumes/ix_volumes/data",
+                                    "type": ""
+                                },
+                                "name": "ix-host-volume-hass-whisper-data"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-10-26T23:15:59Z",
+                        "lastUpdateTime": "2023-10-27T01:48:57Z",
+                        "message": "ReplicaSet \"hass-whisper-ix-chart-8d95fcb4b\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2024-01-20T15:28:06Z",
+                        "lastUpdateTime": "2024-01-20T15:28:06Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 12,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "objectset.rio.cattle.io/applied": "H4sIAAAAAAAA/8RW32/bNhD+V4ZDHzpAcqw4SRsBfijibAu2ekYdbA+FMdDU2bqZIjnypMYL9L8PpGRHwZIu7TAMQQD6jvfr+z6ddA/C0i/oPBkNOQhr/UmTQQI70gXkMEOrzL5CzZBAhSwKwQLyexBaGxZMRvvw06x/R8keeeTIjKRgVjgic0IhCSTP+s0njS7dNjvIYTfxA0+TJd/8SLqYvisKo/8xhRYVQg6+WqfS04uueytkiNnVa0z93jNW0CagxBrVZ4cqhS8hh0JuNm8nm8s3p9lYbrI3FyjGl283xWR8LidZIYpLfHN2cTEJSfv2pKc0tmg0O6MUOuh8z/TiLcrQiUOrSAoPeZaAR4WSjQuOSrAsfzp2LKx9ukrbJsBYWSUYY9yASvWy8EMvwSxIo/OQf7wH4bbhAGkzPYUE0gB/KorCoffTV6/fzWYfrpfLb6NLoSjQpbF/iqT+zfbAzHSIRbiJd+xEKh0KxvQwwJRdjbBKAHUT++mR7utCAo1QdbCcSE/hf+SN3EG7SoAqsQ0eh1vy7Paj3Vsf+PW0TT0bJ7YYAlLrTEPhCUGXN5PR+WgMjxgd+CEBh97UTmJEVFFFHE/S1pG9Civj9pDDZDx+T4Fkh3/U6Ae3IBtXMLh5Gi+2CTRG1RW+N7XmDvwqHBeCy36+h77CkMhpQQ7aVZsMeHpE0GNQAsrWmTWmTBWamqcTH40lCsVlao3j6enlxVnHdGD8hTAqalCj9zF73pyOsvEQxYO7q/4FIGb/F4jN9LwTpS6sIc3TV6+vlje/Xc9ni59v5red3itkR9If0R6P4l8eIDx7QrTDDAPl1pru8pOTrxOwr9ZW1VvSeZONsiyiHuMWtVILo0gGdG42c8MLh77b9Ac+FpGO/B42glTt8LZ06EujCsjPEyiZ7ffIwW97+Dqh/AkJBK1ADgdDmwBpYhJqhkrslyiNLjzkk3ECFh2Z4pGp19/Rlo0flqiv1n3+jr/jQlrEklGfx8uDhpxhI42CHG6vFhDofCLy7BjZk/dE5OpZfQ7U9sW69ChrR7y/MprxrkPVUUMKt1hAHvbcv1HvKoFC+yPhV6r2jO47cp5/JS5/MJ7nGLgvu9Mn43Zd1QS0KXA5eOuEzew0Mka1GR+fYF3fhYGtIxPHUML7ed9JXOKp7Gqm0hGTFAqeHNqjlKayC2c2pKL4eG9Dlg+1DrKY4UbUinvMXEMS30kZUJg/95JNvYAE2Ch0h0+Wj/eAmw3KoNG5WcoSi1qFzbPDAE+YOHVG4ejxrJUIE4TPCxtyBTjg+o4CwUFQX5Oyb9MqofG/SJx+JvPqIKgekcryfkaB4/YZGbVt+1cAAAD//8S4r8A0CgAA",
+                    "objectset.rio.cattle.io/id": "",
+                    "objectset.rio.cattle.io/owner-gvk": "k3s.cattle.io/v1, Kind=Addon",
+                    "objectset.rio.cattle.io/owner-name": "smb-csi",
+                    "objectset.rio.cattle.io/owner-namespace": "kube-system"
+                },
+                "creationTimestamp": "2023-11-25T14:50:44Z",
+                "generation": 1,
+                "labels": {
+                    "objectset.rio.cattle.io/hash": "dcff83f97210cf176ea098fd305c31dad9e74663"
+                },
+                "name": "csi-smb-controller",
+                "namespace": "kube-system",
+                "resourceVersion": "36316133",
+                "uid": "2acdb547-be3c-448a-a3ff-bc4136a4cd54"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "csi-smb-controller"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "csi-smb-controller"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "-v=2",
+                                    "--csi-address=$(ADDRESS)",
+                                    "--leader-election",
+                                    "--leader-election-namespace=kube-system",
+                                    "--extra-create-metadata=true"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "ADDRESS",
+                                        "value": "/csi/csi.sock"
+                                    }
+                                ],
+                                "image": "registry.k8s.io/sig-storage/csi-provisioner:v3.5.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "csi-provisioner",
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "300Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/csi",
+                                        "name": "socket-dir"
+                                    }
+                                ]
+                            },
+                            {
+                                "args": [
+                                    "--csi-address=/csi/csi.sock",
+                                    "--probe-timeout=3s",
+                                    "--health-port=29642",
+                                    "--v=2"
+                                ],
+                                "image": "registry.k8s.io/sig-storage/livenessprobe:v2.10.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "liveness-probe",
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "100Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/csi",
+                                        "name": "socket-dir"
+                                    }
+                                ]
+                            },
+                            {
+                                "args": [
+                                    "--v=5",
+                                    "--endpoint=$(CSI_ENDPOINT)",
+                                    "--metrics-address=0.0.0.0:29644"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "CSI_ENDPOINT",
+                                        "value": "unix:///csi/csi.sock"
+                                    }
+                                ],
+                                "image": "registry.k8s.io/sig-storage/smbplugin:v1.11.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 5,
+                                    "httpGet": {
+                                        "path": "/healthz",
+                                        "port": "healthz",
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 30,
+                                    "periodSeconds": 30,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 10
+                                },
+                                "name": "smb",
+                                "ports": [
+                                    {
+                                        "containerPort": 29642,
+                                        "hostPort": 29642,
+                                        "name": "healthz",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 29644,
+                                        "hostPort": 29644,
+                                        "name": "metrics",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "memory": "200Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "privileged": true
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/csi",
+                                        "name": "socket-dir"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirstWithHostNet",
+                        "hostNetwork": true,
+                        "nodeSelector": {
+                            "kubernetes.io/os": "linux"
+                        },
+                        "priorityClassName": "system-cluster-critical",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {
+                            "seccompProfile": {
+                                "type": "RuntimeDefault"
+                            }
+                        },
+                        "serviceAccount": "csi-smb-controller-sa",
+                        "serviceAccountName": "csi-smb-controller-sa",
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/controlplane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            }
+                        ],
+                        "volumes": [
+                            {
+                                "emptyDir": {},
+                                "name": "socket-dir"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-11-25T14:50:54Z",
+                        "lastUpdateTime": "2023-11-25T14:54:22Z",
+                        "message": "ReplicaSet \"csi-smb-controller-7fbbb8fb6f\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2024-01-22T22:03:50Z",
+                        "lastUpdateTime": "2024-01-22T22:03:50Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "2",
+                    "objectset.rio.cattle.io/applied": "H4sIAAAAAAAA/6xVQW/bOBP9Kx/mLMVW0jaugO/QtbPboq3XqJNeCqOgqZHFNcXhkiMnRqD/vhjJduw2TdrFniyTb4ZvHucN70F58xlDNOQgB+V9HGwySGBtXAE5TNBb2tboGBKokVWhWEF+D8o5YsWGXJS/tPwLNUfks2DoTCtmi2eGBkaSQPLDfbp1GNLVZg05rC/i0c4mS/733rji/2+KgtyzKZyqEXLQFLBw8afg0SstMetmiWncRsYa2gSsWqLtilqPYqq830P6vPIZHDJGybY7dkwBJ9P5E8dWKlaQw1Lj+eji/PVolGWXLy7U8GL0Si1fZsPyvHx1ieXli/MXQ/3yUoh8V9ITpKNHLZQDbozc5VsTmcL2g6kNQz5MIKJFzRQEVCvW1YenymwlJQfFuNp2acla41Y3vlCMfYq7G6c2yli1tAh51ibAWy/MPp1gZR1rb/dxRy30pNDtUVGaHCvjMETIv9yDCiv5gFSTKyGBAbIe7FQayE2UxiIsEjC1WgmjoJyuMAxqE4LA0h14/5tnZ9nwTLq+i5g11s7IGr2FHN6VU+JZwNhbwJoNOoxxFmjZFVQqY5uA11XAWJEtIL9IoGL2fyDLvlcs9z6oUFmuIAFPgSEfDUdyKbrC7o7fXl/PRCrjDBtlJ2jVdo6aXBEhfzVMwGMwVByWMglutMYYj07OEmBTIzX8AHysj4RCL+VB2VnH6uXFAb1DBmLSZCGHm4kwfCYkZe1Pw67Hj4a9zo4Ca+RgdHwkcJFAQFWYfyW5RG4fFM9G2c8q/r3g57+gd8BITdDYtbYVB8a+9WsK0lLZ5fCjgQ74d4Ox39W+ka3hsO4G7Q7aI8UKqJtgeDsmx3jXlamspdtZMBtjcYVXUSvbzWPIS2UjJqCVV0tjDZueiioKsc306vrrb++mk6/zq0+f342vxClFIC97ylpYtL3ofzq7/UTEvxuLu0GTc2iwTWBDtqnxIzVu10e1fM52uh/ZEY66z5VmlfaR8HDCPuePcwx0E5nqo1Td//SZjAtpnsLFg5MnWKrGiokdFTg/moenI50i5GCNa+7kjnww1AlvVYzTnkCvRqptExlDqoNho5UFuaawMRrfaC3FTL81HpPFsH80v9zDGoXYeBffPXSxKyEB8oIUfnB1Z6RJRCMsS9QMOUxprissGiuV92mkqjSQxbPTesR5gWzqrXL4n2auldT/eMqFVOvJ0mo793I1Y3Lyoph9y3TTf/7Lr1Kt7uZrvO3NtzvgfcfylFtFkbt+SeC2QnfjomITS9M/VzChKfGhUGHb99FhLJZm9VF5IWIY65Pr2r8wyX7SHFZEyB40pQLfkihxQD0syXHfDOX2B0bZjc4HNqdx6cEb5KWtlD149CmztIu2bdt/AgAA//+BDg8J/AkAAA",
+                    "objectset.rio.cattle.io/id": "",
+                    "objectset.rio.cattle.io/owner-gvk": "k3s.cattle.io/v1, Kind=Addon",
+                    "objectset.rio.cattle.io/owner-name": "coredns",
+                    "objectset.rio.cattle.io/owner-namespace": "kube-system"
+                },
+                "creationTimestamp": "2023-01-14T00:58:56Z",
+                "generation": 2,
+                "labels": {
+                    "k8s-app": "kube-dns",
+                    "kubernetes.io/name": "CoreDNS",
+                    "objectset.rio.cattle.io/hash": "bce283298811743a0386ab510f2f67ef74240c57"
+                },
+                "name": "coredns",
+                "namespace": "kube-system",
+                "resourceVersion": "36316168",
+                "uid": "8a9f7266-1f76-4091-abcc-8ac26fbbb6fe"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 0,
+                "selector": {
+                    "matchLabels": {
+                        "k8s-app": "kube-dns"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": 1
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "k8s-app": "kube-dns"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "-conf",
+                                    "/etc/coredns/Corefile"
+                                ],
+                                "image": "rancher/mirrored-coredns-coredns:1.10.1",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/health",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 60,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "name": "coredns",
+                                "ports": [
+                                    {
+                                        "containerPort": 53,
+                                        "name": "dns",
+                                        "protocol": "UDP"
+                                    },
+                                    {
+                                        "containerPort": 53,
+                                        "name": "dns-tcp",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9153,
+                                        "name": "metrics",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/ready",
+                                        "port": 8181,
+                                        "scheme": "HTTP"
+                                    },
+                                    "periodSeconds": 2,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "memory": "170Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "70Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "allowPrivilegeEscalation": false,
+                                    "capabilities": {
+                                        "add": [
+                                            "NET_BIND_SERVICE"
+                                        ],
+                                        "drop": [
+                                            "all"
+                                        ]
+                                    },
+                                    "readOnlyRootFilesystem": true
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/coredns",
+                                        "name": "config-volume",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/etc/coredns/custom",
+                                        "name": "custom-config-volume",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "Default",
+                        "nodeSelector": {
+                            "kubernetes.io/os": "linux"
+                        },
+                        "priorityClassName": "system-cluster-critical",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "coredns",
+                        "serviceAccountName": "coredns",
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "key": "CriticalAddonsOnly",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            }
+                        ],
+                        "topologySpreadConstraints": [
+                            {
+                                "labelSelector": {
+                                    "matchLabels": {
+                                        "k8s-app": "kube-dns"
+                                    }
+                                },
+                                "maxSkew": 1,
+                                "topologyKey": "kubernetes.io/hostname",
+                                "whenUnsatisfiable": "DoNotSchedule"
+                            }
+                        ],
+                        "volumes": [
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "items": [
+                                        {
+                                            "key": "Corefile",
+                                            "path": "Corefile"
+                                        },
+                                        {
+                                            "key": "NodeHosts",
+                                            "path": "NodeHosts"
+                                        }
+                                    ],
+                                    "name": "coredns"
+                                },
+                                "name": "config-volume"
+                            },
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "name": "coredns-custom",
+                                    "optional": true
+                                },
+                                "name": "custom-config-volume"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-01-14T00:59:13Z",
+                        "lastUpdateTime": "2023-01-14T00:59:13Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2023-01-14T00:59:13Z",
+                        "lastUpdateTime": "2023-11-25T14:52:07Z",
+                        "message": "ReplicaSet \"coredns-59b4f5bbd5\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "objectset.rio.cattle.io/applied": "H4sIAAAAAAAA/8RW4W/bthP9V3449EMLSLbjxG0qwB/yi9Mt2OoadbFhKIKCJk/2zRTJkZQaL9D/PhwlJ87WpEGBoh8MyDze8d177yjdgHD0G/pA1kABwrkwbI4ggy0ZBQXM0Gm7q9BEyKDCKJSIAoobEMbYKCJZE/ivXf2JMgaMA092IEWMGgdkh8RFIHswbj8b9Pm62UIB2+NwEGmOsv/9QkZNz5Sy5qsljKgQCjBlyGWgJ20PTkjO2dYrzMMuRKygzUCLFepHm9qIsIECcDwSuBq/UqfjyeT4VMlJKV6XJ+p0LMcljkeT0/L0+NWJ5KI9PBkoTxCtid5qjR662ANYgkPJSDw6TVIEKI4yCKhRRus5UIkoN7/eIhbOffmUts0gYuW0iJjyDqTUT0vfY+FlQQZ9gOLjDQi/5gfIm+kYMsiZ/lwo5TGE6bPnZ7PZ+4vl8kUKaRQKfZ7wUxL1P2t3ykwPueCdeB29yKVHETHfNzCNvka4ygBNk/D0TPfnQgaN0DWvDGUg/g2ClVtorzKgSqw54nFNIfrdYHsaWN9A6zxE68UaOSF33jbEE4K+aI4Hk8EI7il6EIcMPAZbe4mJUU0VxdAxXlm/gwJORqO3xOJ6/KvG0EWlq6GAo1GVxqzfOU4b2wwaq+sK39raxI70ih8XIm76vu7wcHMYc0Ue2qs2O9DnGwR6RIx/S/l9FQhGuLCxMbICLwfjAXeSkhe11gurSTJhl+XcxoXH0N1XBxIdFHiCROMfJdGhNPfZYs6dtyvMI1Vo6zg9Dmlxg0LHTe6sj9Px65eTTmPW+on8amrQYAipetGMB0ejQ4Pvw93pTyDv6AeR10wnqXVjFZKaPns+fze7+HQ565yNRjlLJk6fPT9fXn66mM8W7y7nH158wbh93t64b7ytuIWSUKv3WN4+9/j4XhzwoXNOb1sG1Vc6POlgDmpD18Vw+G3jYMrgdL0mUzQng5Ok1FcHYa/hIknI+AXp2uOHjcewsVpBMclgE6P7CSPHXU99Z66/IQP2FxSwX2gzIEORhJ6hFrslSmtUgOJ4lIFDT1bdW+o9e7t2NLp7J5oy9PU77W/fL4t0ZPL07eYDQN5GK62GAj6cLxJ932GsA8raU9ydWxPxOnEjtLafF54a0rjGiyCFTt9BUPCrKAMpnFiRpkgdEKEU+3P5x/LT2ezt5RyuWkbf56su7atD0Ag/1LQa8j2sMQ6dVUxbt8dbJ9Y9CPg/KfLdrSz03eBwQp62d8OTPX3KrjJQJtya61zXIaJ/Qz7E3ylufrYhzpF9tumePlu/3bPBg7E8+GBh/N5gxGRsG9INY+pr6EixiWwtQpj3SNIrJ5fdmbn0FEmmvr4gTUApbeUW3pakk9HjznGV97VhC86wFLWOvbK+IYlnUjIL84e+z/IgIINoNfr91+7HG8CyRMnzMLdLuUFVa74Zt8j0cMe5txoH93utROjePtZxLaYDLq6JbchifEvJHqbTwuD3KJw/Uvlq79iOEZa+s9Ld7fGAZ3tNZsmlPG/tYybFysXdjNg87QP+bNv2nwAAAP//lDltmsgMAAA",
+                    "objectset.rio.cattle.io/id": "",
+                    "objectset.rio.cattle.io/owner-gvk": "k3s.cattle.io/v1, Kind=Addon",
+                    "objectset.rio.cattle.io/owner-name": "nfs-csi",
+                    "objectset.rio.cattle.io/owner-namespace": "kube-system"
+                },
+                "creationTimestamp": "2023-11-25T14:50:42Z",
+                "generation": 1,
+                "labels": {
+                    "objectset.rio.cattle.io/hash": "e20aeb27d825538dc5fa9f4d82c2fe2058f8374c"
+                },
+                "name": "csi-nfs-controller",
+                "namespace": "kube-system",
+                "resourceVersion": "36316188",
+                "uid": "987bb9bd-4f1b-4372-8234-3b478ad10a0e"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "csi-nfs-controller"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "csi-nfs-controller"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "-v=2",
+                                    "--csi-address=$(ADDRESS)",
+                                    "--leader-election",
+                                    "--leader-election-namespace=kube-system",
+                                    "--extra-create-metadata=true"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "ADDRESS",
+                                        "value": "/csi/csi.sock"
+                                    }
+                                ],
+                                "image": "registry.k8s.io/sig-storage/csi-provisioner:v3.5.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "csi-provisioner",
+                                "resources": {
+                                    "limits": {
+                                        "memory": "400Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/csi",
+                                        "name": "socket-dir"
+                                    }
+                                ]
+                            },
+                            {
+                                "args": [
+                                    "--v=2",
+                                    "--csi-address=$(ADDRESS)",
+                                    "--leader-election-namespace=kube-system",
+                                    "--leader-election"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "ADDRESS",
+                                        "value": "/csi/csi.sock"
+                                    }
+                                ],
+                                "image": "registry.k8s.io/sig-storage/csi-snapshotter:v6.2.2",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "csi-snapshotter",
+                                "resources": {
+                                    "limits": {
+                                        "memory": "200Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/csi",
+                                        "name": "socket-dir"
+                                    }
+                                ]
+                            },
+                            {
+                                "args": [
+                                    "--csi-address=/csi/csi.sock",
+                                    "--probe-timeout=3s",
+                                    "--health-port=29652",
+                                    "--v=2"
+                                ],
+                                "image": "registry.k8s.io/sig-storage/livenessprobe:v2.10.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "liveness-probe",
+                                "resources": {
+                                    "limits": {
+                                        "memory": "100Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/csi",
+                                        "name": "socket-dir"
+                                    }
+                                ]
+                            },
+                            {
+                                "args": [
+                                    "-v=5",
+                                    "--nodeid=$(NODE_ID)",
+                                    "--endpoint=$(CSI_ENDPOINT)"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "NODE_ID",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "spec.nodeName"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "CSI_ENDPOINT",
+                                        "value": "unix:///csi/csi.sock"
+                                    }
+                                ],
+                                "image": "registry.k8s.io/sig-storage/nfsplugin:v4.4.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 5,
+                                    "httpGet": {
+                                        "path": "/healthz",
+                                        "port": "healthz",
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 30,
+                                    "periodSeconds": 30,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 10
+                                },
+                                "name": "nfs",
+                                "ports": [
+                                    {
+                                        "containerPort": 29652,
+                                        "hostPort": 29652,
+                                        "name": "healthz",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "memory": "200Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "allowPrivilegeEscalation": true,
+                                    "capabilities": {
+                                        "add": [
+                                            "SYS_ADMIN"
+                                        ]
+                                    },
+                                    "privileged": true
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/lib/kubelet/pods",
+                                        "mountPropagation": "Bidirectional",
+                                        "name": "pods-mount-dir"
+                                    },
+                                    {
+                                        "mountPath": "/csi",
+                                        "name": "socket-dir"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirstWithHostNet",
+                        "hostNetwork": true,
+                        "nodeSelector": {
+                            "kubernetes.io/os": "linux"
+                        },
+                        "priorityClassName": "system-cluster-critical",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {
+                            "seccompProfile": {
+                                "type": "RuntimeDefault"
+                            }
+                        },
+                        "serviceAccount": "csi-nfs-controller-sa",
+                        "serviceAccountName": "csi-nfs-controller-sa",
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/controlplane",
+                                "operator": "Exists"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Exists"
+                            }
+                        ],
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/var/lib/kubelet/pods",
+                                    "type": "Directory"
+                                },
+                                "name": "pods-mount-dir"
+                            },
+                            {
+                                "emptyDir": {},
+                                "name": "socket-dir"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-11-25T14:50:54Z",
+                        "lastUpdateTime": "2023-11-25T14:54:34Z",
+                        "message": "ReplicaSet \"csi-nfs-controller-7b74694749\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2024-01-22T22:03:56Z",
+                        "lastUpdateTime": "2024-01-22T22:03:56Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "objectset.rio.cattle.io/applied": "H4sIAAAAAAAA/7RUzW7bOBB+lcWcJceW442XgA/BZk/bBkWM9BLkMKZGMmuKZDgjNYKhdy8oO60D5A8FehM5w+9nPlJ7wGC+UmTjHSjAEPism0EGO+NKUHBFwfq+ISeQQUOCJQqC2gM65wXFeMdp6TffSAuTTKLxE40ilibGn5kEAtmrdf/dUczrbgcKdnM+qXSz7K//jStXl2Xp3bsQDhsCBa7iXLP5UDsH1OnMrt1Qzj0LNTBkYHFD9k1TW+QtKKBiirQpLsplsVjMl6VeVPhPdV4uC11UVEwXy2o5vzjXCfQojx0G3nrJtXcSvbUU4VB8RQwH0klKY9wNYdmvSXtXMqjZIoNIwRqNDKrIgMmSFh/HbhS9/fTTB4bwCveQKCSiUN2nzrRtXH0bShQ6ID2u21gTqGmWFrcOOzQWN5ZAzYYMpA9J9s2zg2mfmmCfQE7ujf2oqqPxtI3GUWRQd3vAWKcPyPNuVUAGeW4JS4r56N54t5LY0kuFX5GvTmd8n4FpMBmESLVhif1kt+QUM5s6Z/ERazp7Qabq/p4UkwLeCTcS+zZqGj1b0xjhw0waH3tQMJ9OP5s0sUgPLfGhqkMLCmbTZnx1x85ibByG+wycL2l9EnhyFB0JjcI9gwJrXPuYcEM0Phrp/7XIfH2UOprPtW1ZKOY6GjEaLaRrpNux2zuhR0ngTFr7JnyJvjJ2DPQp9NaJaeiKKmytHGKj2BlNl1r71sn1W4MRbyk+/UHu9kBVRVpAwbVf6y2VrU057ihZT37z6C1NnjttMOlPrz0krDQM+O+hHZ10aNvEPl6IIfs9gqPiYNHRn6fJP8xzPwzD8CMAAP//9MckiL0FAAA",
+                    "objectset.rio.cattle.io/id": "",
+                    "objectset.rio.cattle.io/owner-gvk": "k3s.cattle.io/v1, Kind=Addon",
+                    "objectset.rio.cattle.io/owner-name": "nfs-csi",
+                    "objectset.rio.cattle.io/owner-namespace": "kube-system"
+                },
+                "creationTimestamp": "2023-11-25T14:50:42Z",
+                "generation": 1,
+                "labels": {
+                    "objectset.rio.cattle.io/hash": "e20aeb27d825538dc5fa9f4d82c2fe2058f8374c"
+                },
+                "name": "snapshot-controller",
+                "namespace": "kube-system",
+                "resourceVersion": "36316224",
+                "uid": "85d6d788-a912-4fba-bfad-cdb3e9614aa4"
+            },
+            "spec": {
+                "minReadySeconds": 15,
+                "progressDeadlineSeconds": 600,
+                "replicas": 2,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "snapshot-controller"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": 0,
+                        "maxUnavailable": 1
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "snapshot-controller"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "--v=2",
+                                    "--leader-election=true",
+                                    "--leader-election-namespace=kube-system"
+                                ],
+                                "image": "registry.k8s.io/sig-storage/snapshot-controller:v6.2.2",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "snapshot-controller",
+                                "resources": {
+                                    "limits": {
+                                        "memory": "300Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "20Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "nodeSelector": {
+                            "kubernetes.io/os": "linux"
+                        },
+                        "priorityClassName": "system-cluster-critical",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {
+                            "seccompProfile": {
+                                "type": "RuntimeDefault"
+                            }
+                        },
+                        "serviceAccount": "snapshot-controller",
+                        "serviceAccountName": "snapshot-controller",
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/master",
+                                "operator": "Equal",
+                                "value": "true"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/controlplane",
+                                "operator": "Equal",
+                                "value": "true"
+                            },
+                            {
+                                "effect": "NoSchedule",
+                                "key": "node-role.kubernetes.io/control-plane",
+                                "operator": "Equal",
+                                "value": "true"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 2,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2023-11-25T14:50:54Z",
+                        "lastUpdateTime": "2023-11-25T14:52:48Z",
+                        "message": "ReplicaSet \"snapshot-controller-546868dfb4\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2024-01-20T15:28:05Z",
+                        "lastUpdateTime": "2024-01-20T15:28:05Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 2,
+                "replicas": 2,
+                "updatedReplicas": 2
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "10",
+                    "meta.helm.sh/release-name": "plex",
+                    "meta.helm.sh/release-namespace": "ix-plex"
+                },
+                "creationTimestamp": "2023-01-14T01:01:31Z",
+                "generation": 10,
+                "labels": {
+                    "app.kubernetes.io/instance": "plex",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "plex"
+                },
+                "name": "plex",
+                "namespace": "ix-plex",
+                "resourceVersion": "36459811",
+                "uid": "249995fe-cff9-48dc-ba1d-ac18372b1f27"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app.kubernetes.io/instance": "plex",
+                        "app.kubernetes.io/name": "plex"
+                    }
+                },
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "kubectl.kubernetes.io/restartedAt": "2024-01-23T22:21:17+01:00",
+                            "rollme": "FBGvo"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/instance": "plex",
+                            "app.kubernetes.io/name": "plex"
+                        },
+                        "name": "plex"
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "KUBE_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "POD_IP",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "status.podIP"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "TZ",
+                                        "value": "UTC"
+                                    },
+                                    {
+                                        "name": "PLEX_CLAIM"
+                                    },
+                                    {
+                                        "name": "PMS_INTERNAL_ADDRESS",
+                                        "value": "http://plex:32400"
+                                    },
+                                    {
+                                        "name": "PMS_IMAGE",
+                                        "value": "plexinc/pms-docker:1.32.7.7621-871adbd44"
+                                    }
+                                ],
+                                "image": "plexinc/pms-docker:1.32.7.7621-871adbd44",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 5,
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "tcpSocket": {
+                                        "port": 32400
+                                    },
+                                    "timeoutSeconds": 5
+                                },
+                                "name": "plex",
+                                "ports": [
+                                    {
+                                        "containerPort": 32400,
+                                        "hostPort": 32400,
+                                        "name": "pms",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 32469,
+                                        "hostPort": 32469,
+                                        "name": "plex-dlna",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 1900,
+                                        "hostPort": 1900,
+                                        "name": "plex-dlna-udp",
+                                        "protocol": "UDP"
+                                    },
+                                    {
+                                        "containerPort": 32410,
+                                        "hostPort": 32410,
+                                        "name": "plex-gdm1",
+                                        "protocol": "UDP"
+                                    },
+                                    {
+                                        "containerPort": 32412,
+                                        "hostPort": 32412,
+                                        "name": "plex-gdm2",
+                                        "protocol": "UDP"
+                                    },
+                                    {
+                                        "containerPort": 32413,
+                                        "hostPort": 32413,
+                                        "name": "plex-gdm3",
+                                        "protocol": "UDP"
+                                    },
+                                    {
+                                        "containerPort": 32414,
+                                        "hostPort": 32414,
+                                        "name": "plex-gdm4",
+                                        "protocol": "UDP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 5,
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 2,
+                                    "tcpSocket": {
+                                        "port": 32400
+                                    },
+                                    "timeoutSeconds": 5
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "amd.com/gpu": "0",
+                                        "gpu.intel.com/i915": "0",
+                                        "nvidia.com/gpu": "0"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "50Mi"
+                                    }
+                                },
+                                "startupProbe": {
+                                    "failureThreshold": 60,
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 5,
+                                    "successThreshold": 1,
+                                    "tcpSocket": {
+                                        "port": 32400
+                                    },
+                                    "timeoutSeconds": 2
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/config",
+                                        "name": "config"
+                                    },
+                                    {
+                                        "mountPath": "/data",
+                                        "name": "data"
+                                    },
+                                    {
+                                        "mountPath": "/shared",
+                                        "name": "shared"
+                                    },
+                                    {
+                                        "mountPath": "/config/Library/Application Support/Plex Media Server/Logs",
+                                        "name": "shared-logs"
+                                    },
+                                    {
+                                        "mountPath": "/transcode",
+                                        "name": "transcode"
+                                    },
+                                    {
+                                        "mountPath": "/data/downloads",
+                                        "name": "extrappvolume-0",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/data/videos",
+                                        "name": "extrappvolume-1",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsConfig": {},
+                        "dnsPolicy": "ClusterFirstWithHostNet",
+                        "hostNetwork": true,
+                        "hostname": "plex",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/plex/volumes/ix_volumes/ix-plex_config",
+                                    "type": ""
+                                },
+                                "name": "config"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/plex/volumes/ix_volumes/ix-plex_data",
+                                    "type": ""
+                                },
+                                "name": "data"
+                            },
+                            {
+                                "emptyDir": {},
+                                "name": "shared"
+                            },
+                            {
+                                "emptyDir": {},
+                                "name": "shared-logs"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/plex/volumes/ix_volumes/ix-plex_transcode",
+                                    "type": ""
+                                },
+                                "name": "transcode"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/Downloads",
+                                    "type": ""
+                                },
+                                "name": "extrappvolume-0"
+                            },
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/external/Videos",
+                                    "type": ""
+                                },
+                                "name": "extrappvolume-1"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2024-01-23T21:22:08Z",
+                        "lastUpdateTime": "2024-01-23T21:22:08Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2023-01-14T01:01:31Z",
+                        "lastUpdateTime": "2024-01-23T21:22:08Z",
+                        "message": "ReplicaSet \"plex-7f7cc968d7\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 10,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "5",
+                    "meta.helm.sh/release-name": "hass-piper",
+                    "meta.helm.sh/release-namespace": "ix-hass-piper"
+                },
+                "creationTimestamp": "2023-10-27T00:13:20Z",
+                "generation": 7,
+                "labels": {
+                    "app.kubernetes.io/instance": "hass-piper",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "ix-chart",
+                    "app.kubernetes.io/version": "v1",
+                    "helm.sh/chart": "ix-chart-2308.0.1"
+                },
+                "name": "hass-piper-ix-chart",
+                "namespace": "ix-hass-piper",
+                "resourceVersion": "36460645",
+                "uid": "3018e9d1-343d-42d7-a561-7973d69f1f8a"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app.kubernetes.io/instance": "hass-piper",
+                        "app.kubernetes.io/name": "ix-chart"
+                    }
+                },
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "kubectl.kubernetes.io/restartedAt": "2024-01-23T22:29:10+01:00",
+                            "rollme": "tqL1n"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/instance": "hass-piper",
+                            "app.kubernetes.io/name": "ix-chart"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "--voice",
+                                    "en_GB-alan-low"
+                                ],
+                                "image": "rhasspy/wyoming-piper:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ix-chart",
+                                "ports": [
+                                    {
+                                        "containerPort": 10200,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "gpu.intel.com/i915": "0"
+                                    }
+                                },
+                                "securityContext": {
+                                    "privileged": false
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/data",
+                                        "name": "ix-host-volume-hass-piper-data"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsConfig": {},
+                        "dnsPolicy": "Default",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/mnt/data/ix-applications/releases/hass-piper/volumes/ix_volumes/data",
+                                    "type": ""
+                                },
+                                "name": "ix-host-volume-hass-piper-data"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2024-01-23T21:29:52Z",
+                        "lastUpdateTime": "2024-01-23T21:29:52Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2023-10-27T00:13:20Z",
+                        "lastUpdateTime": "2024-01-23T21:29:52Z",
+                        "message": "ReplicaSet \"hass-piper-ix-chart-6f49c7fbc5\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 7,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

@@ -96,6 +96,16 @@ extension Environment {
             .map { $0.trimmingCharacters(in: .whitespaces) }
     }
     
+    func sshCodable<T: Decodable>(_ command: SSHCommand, type: T.Type) -> T {
+        let data = sshList(command).joined().data(using: .utf8)!
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        }
+        catch {
+            fatalError("Couldn't decode \(type): \(error)")
+        }
+    }
+    
     func sshValue(_ command: SSHCommand, redirectOutputPath: String? = nil) -> String? {
         return sshList(command, redirectOutputPath: redirectOutputPath).first
     }

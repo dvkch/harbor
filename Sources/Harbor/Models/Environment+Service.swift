@@ -55,9 +55,8 @@ extension Environment {
             services = sshList(.command(command)).sorted()
         case .k3s:
             command = "k3s kubectl get deployment --recursive --all-namespaces --output=json"
-            let servicesData = sshList(.command(command)).joined(separator: "\n").data(using: .utf8)!
-            let servicesJson = try! JSONDecoder().decode(KubernetesList<KubernetesDeployment>.self, from: servicesData)
-            services = servicesJson.items.filter({ $0.serviceNamespace != "kube-system" && $0.status.readyReplicas != nil })
+            services = sshCodable(.command(command), type: KubernetesList<KubernetesDeployment>.self)
+                .items.filter({ $0.serviceNamespace != "kube-system" && $0.status.readyReplicas != nil })
         }
         
         filters.forEach { filter in
@@ -75,6 +74,7 @@ extension Environment {
     func logs(service s: any Serviceable, follow: Bool, tail: Int) {
         let followFlag = follow ? "-f" : ""
         let args = "\(followFlag) --tail \(tail)"
+
         switch provider {
         case .swarm:
             sshRun(.command("docker service logs \(s.serviceName) \(args)"))
@@ -100,13 +100,9 @@ extension Environment {
     func inspect(service: any Serviceable) -> any Inspectable {
         switch provider {
         case .swarm:
-            let rawJSON = sshList(.command("docker service inspect \(service.serviceName)")).joined()
-            let rawData = rawJSON.data(using: .utf8)!
-            return try! JSONDecoder().decode([DockerService].self, from: rawData)[0]
+            return sshCodable(.command("docker service inspect \(service.serviceName)"), type: [DockerService].self)[0]
         case .compose:
-            let rawJSON = sshList(.command("docker container inspect \(service.serviceName)")).joined()
-            let rawData = rawJSON.data(using: .utf8)!
-            return try! JSONDecoder().decode([DockerContainer].self, from: rawData)[0]
+            return sshCodable(.command("docker container inspect \(service.serviceName)"), type: [DockerContainer].self)[0]
         case .k3s:
             return service as! KubernetesDeployment
         }

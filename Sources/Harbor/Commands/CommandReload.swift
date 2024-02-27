@@ -18,13 +18,15 @@ struct CommandReload: ParsableCommand {
     var env: String?
     var environment: Environment!
     
-    @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .none) }))
+    @Argument(help: "Service", completion: .custom({
+        Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filters: [.is(.reloadable)])
+    }))
     var service: String!
     
     mutating func run() throws {
         let environment: Environment
         let service: any Serviceable
-        (environment, service) = Environment.selectService(env: env, service: self.service, filter: .none)
+        (environment, service) = Environment.selectService(env: env, service: self.service, filters: [.is(.reloadable)])
         
         print("")
         print("Will now restart \(environment.name)/\(service.serviceDisplayName)...")

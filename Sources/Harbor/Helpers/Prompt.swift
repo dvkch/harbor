@@ -24,7 +24,7 @@ struct Prompt {
             return services[0]
         }
         
-        return Terminal().showOptions(title: title, options: services, display: { $0.description })
+        return Terminal().showOptions(title: title, options: services, display: { $0.serviceDisplayName })
     }
 
     static func choice<E: CaseIterable & RawRepresentable & CustomStringConvertible>(_ title: String, options: E.Type) -> E {

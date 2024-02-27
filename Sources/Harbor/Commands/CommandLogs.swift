@@ -17,7 +17,9 @@ struct CommandLogs: ParsableCommand {
     @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
     
-    @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .none) }))
+    @Argument(help: "Service", completion: .custom({ 
+        Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filters: [])
+    }))
     var service: String!
     
     @Option(help: "Tail")
@@ -29,7 +31,7 @@ struct CommandLogs: ParsableCommand {
     mutating func run() throws {
         let environment: Environment
         let service: any Serviceable
-        (environment, service) = Environment.selectService(env: env, service: self.service, filter: .none)
+        (environment, service) = Environment.selectService(env: env, service: self.service, filters: [])
 
         print("")
         print("Streaming logs from \(environment.name)/\(service.serviceDisplayName)...")

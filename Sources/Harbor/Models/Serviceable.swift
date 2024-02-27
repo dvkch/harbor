@@ -7,20 +7,31 @@
 
 import Foundation
 
-protocol Serviceable: CustomStringConvertible {
+protocol Serviceable {
     var serviceDisplayName: String { get }
     var serviceName: String { get }
     var serviceNamespace: String { get }
+    var serviceCapabilities: [ServiceCapability] { get }
 }
 
-extension Serviceable {
-    var description: String {
-        return serviceDisplayName
-    }
+enum ServiceCapability {
+    case db, reloadable, sensitive, exec
 }
 
 extension String: Serviceable {
     var serviceDisplayName: String { return self }
     var serviceName: String { return self }
-    var serviceNamespace: String { return "" }
+    var serviceNamespace: String { fatalError("Unsupported") }
+    var serviceCapabilities: [ServiceCapability] {
+        var capabilities = [ServiceCapability]()
+        capabilities.append(.exec)
+        capabilities.append(.reloadable)
+        if serviceDisplayName.contains("_db") || serviceDisplayName.contains("-db") {
+            capabilities.append(.db)
+        }
+        if serviceDisplayName.contains("traefik") || serviceDisplayName.contains("nginx") {
+            capabilities.append(.sensitive)
+        }
+        return capabilities
+    }
 }

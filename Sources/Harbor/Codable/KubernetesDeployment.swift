@@ -275,8 +275,9 @@ extension KubernetesDeployment: Serviceable {
         return metadata.namespace
     }
     
-    var serviceDeployment: String {
-        return "deployment/" + metadata.name
+    var serviceCapabilities: [ServiceCapability] {
+        // TODO: could be improved
+        return serviceName.serviceCapabilities
     }
 }
 

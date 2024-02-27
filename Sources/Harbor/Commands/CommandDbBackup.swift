@@ -17,7 +17,9 @@ struct CommandDbBackup: ParsableCommand {
     @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
     
-    @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .db) }))
+    @Argument(help: "Service", completion: .custom({
+        Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filters: [.is(.db)])
+    }))
     var service: String!
     
     @Argument(help: "Filename")
@@ -26,7 +28,7 @@ struct CommandDbBackup: ParsableCommand {
     mutating func run() throws {
         let environment: Environment
         let service: any Serviceable
-        (environment, service) = Environment.selectService(env: env, service: self.service, filter: .db)
+        (environment, service) = Environment.selectService(env: env, service: self.service, filters: [.is(.db)])
 
         let config = environment.inspect(service: service)
         let image = config.inspectableImage.split(separator: ":").first

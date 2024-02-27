@@ -17,11 +17,13 @@ struct CommandExec: ParsableCommand {
     @Argument(help: "Environment", completion: .custom({ Environment.generateEnvironmentCompletion($0.last) }))
     var env: String?
     
-    @Argument(help: "Service", completion: .custom({ Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filter: .none) }))
+    @Argument(help: "Service", completion: .custom({
+        Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filters: [])
+    }))
     var service: String!
     
-    @Flag(help: "Access reverse proxies and other sensitive containers")
-    var sensitive: Bool = false
+    @Flag(name: .customLong("sensitive"), help: "Access reverse proxies and other sensitive containers")
+    var allowSensitive: Bool = false
     
     @Argument(help: "Command")
     var command: [String] = []
@@ -31,7 +33,7 @@ struct CommandExec: ParsableCommand {
         let service: any Serviceable
         (environment, service) = Environment.selectService(
             env: env, service: self.service,
-            filter: sensitive ? .none : .sensitiveOperation
+            filters: allowSensitive ? [] : [.ìsNot(.sensitive)]
         )
         
         let command = self.command.joined(separator: " ").nilIfEmpty ?? Prompt.input("Command:", default: "/bin/sh")

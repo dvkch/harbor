@@ -9,10 +9,6 @@ import Foundation
 
 extension Environment {
     
-    enum ServiceFilter {
-        case none, db, sensitiveOperation
-    }
-    
     static func selectEnvironment(env envName: String?) -> Environment {
         let envs = Config.shared.environments
         let selectedEnv: Environment
@@ -24,12 +20,17 @@ extension Environment {
         }
         return selectedEnv
     }
+    
+    enum Filter {
+        case `is`(ServiceCapability)
+        case ìsNot(ServiceCapability)
+    }
 
-    static func selectService(env envName: String?, service serviceName: String?, filter: ServiceFilter) -> (Environment, any Serviceable) {
+    static func selectService(env envName: String?, service serviceName: String?, filters: [Filter]) -> (Environment, any Serviceable) {
         let selectedEnv = selectEnvironment(env: envName)
         
         // select service
-        let services: [any Serviceable] = selectedEnv.services(filter: filter)
+        let services: [any Serviceable] = selectedEnv.services(filters: filters)
         let selectedService: any Serviceable
         if let serviceName, let service = services.unique(where: { $0.serviceDisplayName.hasPrefix(serviceName) }) {
             selectedService = service
@@ -41,7 +42,7 @@ extension Environment {
         return (selectedEnv, selectedService)
     }
 
-    func services(filter: ServiceFilter) -> [any Serviceable] {
+    func services(filters: [Filter]) -> [any Serviceable] {
         let command: String
         var services: [any Serviceable]
 
@@ -59,16 +60,13 @@ extension Environment {
             services = servicesJson.items.filter({ $0.serviceNamespace != "kube-system" && $0.status.readyReplicas != nil })
         }
         
-        switch filter {
-        case .sensitiveOperation:
-            services = services
-                .filter { !$0.serviceDisplayName.contains("traefik") }
-                .filter { !$0.serviceDisplayName.contains("nginx") }
-        case .db:
-            services = services
-                .filter { $0.serviceDisplayName.contains("_db") }
-        case .none:
-            break
+        filters.forEach { filter in
+            switch filter {
+            case .is(let cap):
+                services = services.filter { $0.serviceCapabilities.contains(cap) }
+            case .ìsNot(let cap):
+                services = services.filter { !$0.serviceCapabilities.contains(cap) }
+            }
         }
         
         return services

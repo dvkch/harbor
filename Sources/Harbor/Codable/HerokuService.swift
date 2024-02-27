@@ -7,68 +7,51 @@
 
 import Foundation
 
-enum HerokuService: Equatable {
-    case app(app: HerokuApp)
-    case dyno(app: HerokuApp, dyno: HerokuDyno)
-    case db(app: HerokuApp, addon: HerokuAddon)
-    
-    var app: HerokuApp {
-        switch self {
-        case .app(let app):     return app
-        case .dyno(let app, _): return app
-        case .db(let app, _):   return app
-        }
-    }
+struct HerokuService: Equatable {
+    let app: HerokuApp
+    let dyno: HerokuDyno?
+    let addons: [HerokuAddon]
 }
 
 extension HerokuService: Serviceable {
-    var serviceName: String {
-        switch self {
-        case .app(let app):             return app.name
-        case .dyno(let app, let dyno):  return "\(app.name).\(dyno.name)"
-        case .db(let app, let addon):   return "\(app.name).\(addon.name)"
-        }
-    }
-    
     var serviceDisplayName: String {
-        switch self {
-        case .app(let app):             return "\(app.name) (all)"
-        case .dyno(let app, let dyno):  return "\(app.name) > \(dyno.name)"
-        case .db(let app, let addon):   return "\(app.name) > \(addon.name)"
+        if let dyno {
+            return "\(app.name).\(dyno.name)"
         }
+        return app.name
+    }
+
+    var serviceName: String {
+        return dyno?.name ?? ""
     }
     
     var serviceNamespace: String {
-        fatalError("Unsupported")
+        return app.name
     }
     
     var serviceCapabilities: [ServiceCapability] {
-        switch self {
-        case .app:  return [.reloadable, .exec]
-        case .dyno: return [.reloadable, .exec]
-        case .db:   return [.db]
+        var capabilities = [ServiceCapability]()
+        capabilities.append(.reloadable)
+        if dyno == nil {
+            capabilities.append(.exec)
+            if addons.contains(where: { $0.addonService.kind == .postgresql }) {
+                capabilities.append(.db)
+            }
         }
-    }
-}
-
-extension HerokuService: Comparable {
-    static func < (lhs: HerokuService, rhs: HerokuService) -> Bool {
-        return lhs.serviceDisplayName < rhs.serviceDisplayName
+        return capabilities
     }
 }
 
 extension HerokuService {
     static func services(apps: [HerokuApp], dynos: [HerokuDyno], addons: [HerokuAddon]) -> [HerokuService] {
         var services = [HerokuService]()
-        apps.forEach { app in
-            services.append(.app(app: app))
+        apps.sorted { $0.name < $1.name }.forEach { app in
+            let appAddons = addons.filter { $0.app.id == app.id }
+            services.append(.init(app: app, dyno: nil, addons: appAddons))
             dynos.filter { $0.app.id == app.id }.forEach { dyno in
-                services.append(.dyno(app: app, dyno: dyno))
-            }
-            addons.filter { $0.app.id == app.id }.forEach { addon in
-                services.append(.db(app: app, addon: addon))
+                services.append(.init(app: app, dyno: dyno, addons: appAddons))
             }
         }
-        return services.sorted()
+        return services
     }
 }

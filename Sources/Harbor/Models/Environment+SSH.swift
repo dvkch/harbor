@@ -31,7 +31,7 @@ extension Environment {
             commandString = "ssh -p\(port) \(user)@\(host) \"\(value)\""
         case .script(let value):
             try! value.write(to: tempFileURL, atomically: true, encoding: .utf8)
-            commandString = "ssh -\(port) \(user)@\(host) 'bash -s' < \(tempFileURL.path)"
+            commandString = "ssh -\(port) \(user)@\(host) 'bash -s' < \"\(tempFileURL.path)\""
         }
         
         if let redirectOutputPath {

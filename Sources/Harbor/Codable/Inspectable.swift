@@ -21,4 +21,14 @@ extension Inspectable {
 struct ConcreteInspectable: Inspectable {
     let inspectableImage: String
     let inspectableEnv: [(String, String)]
+
+    init(inspectableImage: String, inspectableEnv: [(String, String)]) {
+        self.inspectableImage = inspectableImage
+        self.inspectableEnv = inspectableEnv
+    }
+
+    init(inspectableImage: String, inspectableEnv: [String: String]) {
+        self.inspectableImage = inspectableImage
+        self.inspectableEnv = inspectableEnv.map { ($0, $1) }
+    }
 }

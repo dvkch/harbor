@@ -18,7 +18,7 @@ struct CommandExec: ParsableCommand {
     var env: String?
     
     @Argument(help: "Service", completion: .custom({
-        Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filters: [])
+        Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filters: [.is(.exec)])
     }))
     var service: String!
     
@@ -33,7 +33,7 @@ struct CommandExec: ParsableCommand {
         let service: any Serviceable
         (environment, service) = Environment.selectService(
             env: env, service: self.service,
-            filters: allowSensitive ? [] : [.ìsNot(.sensitive)]
+            filters: allowSensitive ? [.is(.exec)] : [.is(.exec), .ìsNot(.sensitive)]
         )
         
         let command = self.command.joined(separator: " ").nilIfEmpty ?? Prompt.input("Command:", default: "/bin/sh")

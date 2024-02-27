@@ -59,7 +59,9 @@ extension Environment {
                 .items.filter({ $0.serviceNamespace != "kube-system" && $0.status.readyReplicas != nil })
         case .heroku:
             let apps = sshCodable(.command("heroku apps --json"), type: [HerokuApp].self)
-            let dynos = sshCodable(.command("heroku ps --json"), type: [HerokuDyno].self)
+            let dynos = apps.map { app in
+                sshCodable(.command("heroku ps -a \(app.name) --json"), type: [HerokuDyno].self)
+            }.reduce([], +)
             let addons = sshCodable(.command("heroku addons --json"), type: [HerokuAddon].self)
             services = HerokuService.services(apps: apps, dynos: dynos, addons: addons)
         }
@@ -90,17 +92,12 @@ extension Environment {
             sshRun(.command(cmd))
         case .heroku:
             let followFlag = follow ? "--tail" : ""
-            let args = "\(followFlag) --num=\(tail)"
+            var args = "\(followFlag) --num=\(tail) --force-colors"
 
-            let herokuService = s as! HerokuService
-            switch herokuService {
-            case .app(let app):
-                sshRun(.command("heroku logs -a \(app.name) \(args)"))
-            case .dyno(let app, let dyno):
-                sshRun(.command("heroku logs -a \(app.name) -d \(dyno.name) \(args)"))
-            case .db(let app, let addon):
-                sshRun(.command("heroku logs -a \(app.name) -p \(addon.addonService.name) \(args)"))
+            if s.serviceName.isNotEmpty {
+                args += " -d \(s.serviceName)"
             }
+            sshRun(.command("heroku logs -a \(s.serviceNamespace) \(args)"))
         }
     }
   
@@ -113,15 +110,7 @@ extension Environment {
         case .k3s:
             sshInteractive("k3s kubectl rollout restart \(service.serviceName) -n \(service.serviceNamespace)")
         case .heroku:
-            let herokuService = service as! HerokuService
-            switch herokuService {
-            case .app(let app):
-                sshInteractive("heroku dyno:restart -a \(app.name)")
-            case .dyno(let app, let dyno):
-                sshInteractive("heroku dyno:restart \(dyno.name) -a \(app.name)")
-            case .db:
-                print("This service cannot be restarted as it is not an Heroku Dyno")
-            }
+            sshInteractive("heroku dyno:restart \(service.serviceName) -a \(service.serviceNamespace)")
         }
     }
     
@@ -134,15 +123,8 @@ extension Environment {
         case .k3s:
             return service as! KubernetesDeployment
         case .heroku:
-            let herokuService = service as! HerokuService
-            let env = sshCodable(.command("heroku config --json -a \(herokuService.app.name)"), type: [String: String].self).map { ($0, $1) }
-
-            switch herokuService {
-            case .app, .dyno:
-                return ConcreteInspectable(inspectableImage: "", inspectableEnv: env)
-            case .db(_, let addon):
-                return ConcreteInspectable(inspectableImage: addon.addonService.name, inspectableEnv: env)
-            }
+            let env = sshCodable(.command("heroku config --json -a \(service.serviceNamespace)"), type: [String: String].self)
+            return ConcreteInspectable(inspectableImage: "", inspectableEnv: env)
         }
     }
     
@@ -188,17 +170,7 @@ extension Environment {
 
         case .heroku:
             sshEnv = self
-
-            let herokuService = s as! HerokuService
-            switch herokuService {
-            case .app(let app):
-                sshCmd = "heroku -a \(app.name) \(command)"
-            case .dyno(let app, let dyno):
-                sshCmd = "heroku -a \(app.name) -t \(dyno.type) \(command)"
-            case .db:
-                print("This service doesn't support execution as it is not an Heroku Dyno")
-                return []
-            }
+            sshCmd = "heroku run -a \(s.serviceNamespace) \(command)"
         }
 
         if interactive {

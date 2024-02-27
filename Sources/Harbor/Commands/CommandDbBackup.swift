@@ -21,20 +21,29 @@ struct CommandDbBackup: ParsableCommand {
         Environment.generateServiceCompletion($0.last, env: $0.beforeLast, filters: [.is(.db)])
     }))
     var service: String!
-    
+
     @Argument(help: "Filename")
     var filename: String!
-    
+
+    @Flag(name: .long, help: "Obtain the latest download, for providers supporting it")
+    var latest: Bool = false
+
     mutating func run() throws {
         let environment: Environment
         let service: any Serviceable
         (environment, service) = Environment.selectService(env: env, service: self.service, filters: [.is(.db)])
 
         let config = environment.inspect(service: service)
-        let image = config.inspectableImage.split(separator: ":").first
-        let tag = config.inspectableImage.split(separator: ":").last
+        let imageParts = config.inspectableImage.split(separator: ":")
+        var image = String(imageParts.first ?? "")
+        var tag = String(imageParts.last ?? "")
+        
+        if let service = service as? HerokuService, let db = service.addons.first(where: { $0.addonService.kind == .postgresql }) {
+            image = db.addonService.name
+            tag = ""
+        }
 
-        guard let image, let tag else {
+        guard image.isNotEmpty else {
             print("Couldn't detect image for service \(service.serviceDisplayName)")
             return
         }
@@ -55,7 +64,6 @@ struct CommandDbBackup: ParsableCommand {
             
             let command = "pg_dump -Fc --no-acl --no-owner -h localhost -U \(user) \(dbName)"
             environment.exec(service: service, command: command, interactive: false, redirectOutputPath: outputURL.path)
-            print("Finished! Your data is available at", outputURL.path)
             
         case "myssql":
             guard let user = config.inspectableEnv(for: "MYSQL_USER") else {
@@ -75,14 +83,18 @@ struct CommandDbBackup: ParsableCommand {
             command = "/bin/bash -c '\(command)'"
             environment.exec(service: service, command: command, interactive: false, redirectOutputPath: outputURL.path)
 
-            print("Finished! Your data is available at", outputURL.path)
-
         case "heroku-postgresql":
-            print("TODO")
-            
+            if !latest {
+                environment.sshInteractive("heroku pg:backups:capture --app \(service.serviceNamespace)")
+            }
+            environment.sshInteractive("heroku pg:backups:download --app \(service.serviceNamespace) -o \"\(outputURL.path)\"")
+
         default:
             print("Unrecognized DB image \(image), cannot perform DB backup")
+            return
         }
+
+        print("Finished! Your data is available at", outputURL.path)
     }
 }
 

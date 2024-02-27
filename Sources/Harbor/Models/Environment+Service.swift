@@ -112,6 +112,9 @@ extension Environment {
     func exec(service s: any Serviceable, command: String, interactive: Bool = true, redirectOutputPath: String? = nil) -> [String] {
         let interactiveFlags = interactive ? "-it" : "-i"
         
+        let sshEnv: Environment
+        let sshCmd: String
+
         switch provider {
         case .swarm:
             // https://www.reddit.com/r/docker/comments/a5kbte/comment/ebp9kab/?utm_source=share&utm_medium=web2x&context=3
@@ -134,36 +137,24 @@ extension Environment {
                 exit(-1)
             }
 
-            let updatedEnv = self.copy(newHost: nodeHost)
-            let sshCmd = "docker exec \(interactiveFlags) \(containerID) \(command)"
-
-            if interactive {
-                updatedEnv.sshInteractive(sshCmd)
-                return []
-            }
-            else {
-                return updatedEnv.sshList(.command(sshCmd), redirectOutputPath: redirectOutputPath)
-            }
+            sshEnv = self.copy(newHost: nodeHost)
+            sshCmd = "docker exec \(interactiveFlags) \(containerID) \(command)"
                 
         case .compose:
-            let sshCmd = "docker exec \(interactiveFlags) \(s.serviceName) \(command)"
-            if interactive {
-                sshInteractive(sshCmd)
-                return []
-            }
-            else {
-                return sshList(.command(sshCmd), redirectOutputPath: redirectOutputPath)
-            }
+            sshEnv = self
+            sshCmd = "docker exec \(interactiveFlags) \(s.serviceName) \(command)"
             
         case .k3s:
-            let sshCmd = "k3s kubectl exec \(interactiveFlags) \(s.serviceName) -n \(s.serviceNamespace) -- \(command)"
-            if interactive {
-                sshInteractive(sshCmd)
-                return []
-            }
-            else {
-                return sshList(.command(sshCmd), redirectOutputPath: redirectOutputPath)
-            }
+            sshEnv = self
+            sshCmd = "k3s kubectl exec \(interactiveFlags) \(s.serviceName) -n \(s.serviceNamespace) -- \(command)"
+        }
+
+        if interactive {
+            sshEnv.sshInteractive(sshCmd)
+            return []
+        }
+        else {
+            return sshEnv.sshList(.command(sshCmd), redirectOutputPath: redirectOutputPath)
         }
     }
 }

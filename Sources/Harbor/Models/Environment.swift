@@ -32,6 +32,7 @@ struct Environment: Codable {
         case compose = "compose"
         case swarm = "swarm"
         case k3s = "k3s"
+        case heroku = "heroku"
     }
     
     func copy(newHost: String) -> Environment {

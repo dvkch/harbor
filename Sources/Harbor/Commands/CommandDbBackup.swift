@@ -77,6 +77,9 @@ struct CommandDbBackup: ParsableCommand {
 
             print("Finished! Your data is available at", outputURL.path)
 
+        case "heroku-postgresql":
+            print("TODO")
+            
         default:
             print("Unrecognized DB image \(image), cannot perform DB backup")
         }

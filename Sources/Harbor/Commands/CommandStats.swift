@@ -39,6 +39,9 @@ struct CommandStats: ParsableCommand {
 
         case .k3s:
             command = "k3s kubectl top pod --all-namespaces"
+            
+        case .heroku:
+            CommandStats.exit(withError: HarborError.unsupported(.heroku))
         }
         
         environment.sshInteractive(command)

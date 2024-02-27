@@ -1,0 +1,81 @@
+[
+  {
+    "app": {
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp",
+      "name": "my-app"
+    },
+    "config_vars": [
+      "DATABASE_URL"
+    ],
+    "created_at": "2020-04-27T15:11:59Z",
+    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxmydb",
+    "name": "postgresql-curly-xxxxx",
+    "addon_service": {
+      "cli_plugin_name": null,
+      "created_at": "2010-07-30T02:53:38Z",
+      "human_name": "Heroku Postgres",
+      "id": "6c67493d-8fc2-4cd4-9161-4f1ec11cbe69",
+      "name": "heroku-postgresql",
+      "state": "ga",
+      "supports_multiple_installations": true,
+      "supports_sharing": true,
+      "updated_at": "2024-02-06T14:49:58Z"
+    },
+    "state": "provisioned",
+    "updated_at": "2024-02-13T01:42:18Z",
+    "web_url": "https://addons-sso.heroku.com/apps/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp/addons/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxmydb"
+  },
+  {
+    "actions": [],
+    "app": {
+        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp",
+        "name": "my-app"
+    },
+    "config_vars": [
+      "REDIS_TLS_URL",
+      "REDIS_URL"
+    ],
+    "created_at": "2022-12-08T10:31:10Z",
+    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxredis",
+    "name": "redis-closed-xxxxx",
+    "addon_service": {
+      "cli_plugin_name": "heroku-redis",
+      "created_at": "2014-10-01T04:45:10Z",
+      "human_name": "Heroku Data for Redis®*",
+      "id": "5bbf672c-07f6-49c2-9c16-f1dcb96784db",
+      "name": "heroku-redis",
+      "state": "ga",
+      "supports_multiple_installations": true,
+      "supports_sharing": true,
+      "updated_at": "2024-01-24T13:31:39Z"
+    },
+    "state": "provisioned",
+    "updated_at": "2024-02-22T09:18:45Z",
+    "web_url": "https://addons-sso.heroku.com/apps/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp/addons/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxredis"
+  },
+  {
+    "actions": [],
+    "app": {
+        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp",
+        "name": "my-app"
+    },
+    "config_vars": [],
+    "created_at": "2020-04-29T12:15:52Z",
+    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxcron",
+    "name": "scheduler-silhouetted-xxxxx",
+    "addon_service": {
+      "cli_plugin_name": null,
+      "created_at": "2011-08-03T02:32:21Z",
+      "human_name": "Heroku Scheduler",
+      "id": "3342342e-c3d3-40b9-a839-a751c1dd89bb",
+      "name": "scheduler",
+      "state": "ga",
+      "supports_multiple_installations": false,
+      "supports_sharing": false,
+      "updated_at": "2024-01-25T21:13:11Z"
+    },
+    "state": "provisioned",
+    "updated_at": "2022-07-01T02:42:20Z",
+    "web_url": "https://addons-sso.heroku.com/apps/58b1d477-3200-49c3-b63f-a8844bd39f4c/addons/49aee4a1-c4dc-49f8-bb15-871bff9c52cb",
+  }
+]

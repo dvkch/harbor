@@ -1,0 +1,40 @@
+[
+  {
+    "attach_url": null,
+    "command": "bundle exec puma -C config/puma.rb",
+    "created_at": "2024-02-26T17:58:17Z",
+    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxweb",
+    "name": "web.1",
+    "app": {
+        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp",
+        "name": "my-app"
+    },
+    "release": {
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-wxxwebrel184",
+      "version": 184
+    },
+    "size": "Basic",
+    "state": "up",
+    "type": "web",
+    "updated_at": "2024-02-26T17:58:17Z"
+  },
+  {
+    "attach_url": null,
+    "command": "bundle exec sidekiq -t 25",
+    "created_at": "2024-02-27T14:22:31Z",
+    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxworker",
+    "name": "worker.1",
+    "app": {
+        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp",
+        "name": "my-app"
+    },
+    "release": {
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-workerrel184",
+      "version": 184
+    },
+    "size": "Basic",
+    "state": "crashed",
+    "type": "worker",
+    "updated_at": "2024-02-27T14:22:31Z"
+  }
+]

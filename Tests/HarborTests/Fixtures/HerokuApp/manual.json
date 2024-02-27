@@ -1,0 +1,37 @@
+[
+  {
+    "acm": true,
+    "archived_at": null,
+    "buildpack_provided_description": "Node.js,Ruby",
+    "build_stack": {
+      "id": "5fc4e202-3efa-40a9-9789-3e104b74cf89",
+      "name": "heroku-22"
+    },
+    "created_at": "2021-01-21T14:51:33Z",
+    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxmyapp",
+    "git_url": "https://git.heroku.com/my-app.git",
+    "maintenance": false,
+    "name": "my-app",
+    "owner": {
+      "email": "myapp@example.com",
+      "id": "xxxxxxxx-xxxx-xxxx-xxxx-myemailxxxxx"
+    },
+    "region": {
+      "id": "ed30241c-ed8c-4bb6-9714-61953675d0b4",
+      "name": "eu"
+    },
+    "organization": null,
+    "team": null,
+    "space": null,
+    "internal_routing": null,
+    "released_at": "2024-02-22T16:36:48Z",
+    "repo_size": 109733785,
+    "slug_size": 483385638,
+    "stack": {
+      "id": "5fc4e202-3efa-40a9-9789-3e104b74cf89",
+      "name": "heroku-22"
+    },
+    "updated_at": "2024-02-22T16:37:49Z",
+    "web_url": "https://myapp.herokuapp.com/"
+  }
+]

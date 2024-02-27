@@ -17,3 +17,8 @@ extension Inspectable {
         return inspectableEnv.last(where: { $0.0 == key })?.1
     }
 }
+
+struct ConcreteInspectable: Inspectable {
+    let inspectableImage: String
+    let inspectableEnv: [(String, String)]
+}

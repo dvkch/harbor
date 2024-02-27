@@ -31,6 +31,9 @@ final class HarborTests: XCTestCase {
         try testCodable(folder: "DockerContainer", type: [DockerContainer].self)
         try testCodable(folder: "DockerService", type: [DockerService].self)
         try testCodable(folder: "KubernetesDeployments", type: KubernetesList<KubernetesDeployment>.self)
+        try testCodable(folder: "HerokuApp", type: [HerokuApp].self)
+        try testCodable(folder: "HerokuAddon", type: [HerokuAddon].self)
+        try testCodable(folder: "HerokuDyno", type: [HerokuDyno].self)
     }
 }
 

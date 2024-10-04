@@ -72,7 +72,7 @@ struct DockerContainer: Decodable {
                 case hostPort = "HostPort"
             }
         }
-        let portBindings: [String: PortBinding]
+        let portBindings: [String: [PortBinding]]
         
         struct RestartPolicy: Decodable {
             let name: String
@@ -175,8 +175,8 @@ struct DockerContainer: Decodable {
                 case hostPort = "HostPort"
             }
         }
-        let ports: [String: Port?]?
-        
+        let ports: [String: [Port]?]?
+
         struct Network: Decodable {
             let networkID: String
             let ipAddress: String

@@ -8,8 +8,9 @@ if [ "x$1" = "xrelease" ]; then
 
     # build for macOS
     echo ""
+    echo "----------------------------------------"
     echo "Building for macOS..."
-    swift build --arch arm64 --arch x86_64 -c release > /dev/null
+    swift build --arch arm64 --arch x86_64 -c release
     mkdir -p "build/macOS"
     rsync -ar ".build/apple/Products/Release/harbor"               "build/macOS"
     rsync -ar ".build/apple/Products/Release/Harbor_Harbor.bundle" "build/macOS"
@@ -22,18 +23,20 @@ if [ "x$1" = "xrelease" ]; then
     fi
 
     echo ""
+    echo "----------------------------------------"
     echo "Building for Linux ARM64..."
     docker container rm -f harbor-linux > /dev/null
-    docker run -it --name harbor-linux --platform linux/arm64/v8 -v $(pwd):/harbor swift:latest /bin/bash -c "cd harbor && swift build -c release > /dev/null"
+    docker run -it --name harbor-linux --platform linux/arm64/v8 -v $(pwd):/harbor swift:latest /bin/bash -c "cd harbor && swift build -c release"
     mkdir -p "build/linux-arm64"
     rsync -ar ".build/aarch64-unknown-linux-gnu/release/harbor"                  "build/linux-arm64"
     rsync -ar ".build/aarch64-unknown-linux-gnu/release/Harbor_Harbor.resources" "build/linux-arm64"
     tar -C build/linux-arm64 -czf build/linux-arm64.tar.gz .
 
     echo ""
+    echo "----------------------------------------"
     echo "Building for Linux x64..."
     docker container rm -f harbor-linux > /dev/null
-    docker run -it --name harbor-linux --platform linux/amd64    -v $(pwd):/harbor swift:latest /bin/bash -c "cd harbor && swift build -c release > /dev/null"
+    docker run -it --name harbor-linux --platform linux/amd64    -v $(pwd):/harbor swift:latest /bin/bash -c "cd harbor && swift build -c release"
     mkdir -p "build/linux-amd64"
     rsync -ar ".build/x86_64-unknown-linux-gnu/release/harbor"                   "build/linux-amd64"
     rsync -ar ".build/x86_64-unknown-linux-gnu/release/Harbor_Harbor.resources"  "build/linux-amd64"

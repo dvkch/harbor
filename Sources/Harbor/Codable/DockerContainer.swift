@@ -220,7 +220,7 @@ struct DockerContainer: Decodable {
 
 extension DockerContainer: Inspectable {
     var inspectableImage: String {
-        return image
+        return config.image
     }
     
     var inspectableEnv: [(String, String)] {

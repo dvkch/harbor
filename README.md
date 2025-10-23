@@ -6,9 +6,11 @@ Just another CLI tool to easily access Docker Composer containers, Docker Swarm 
 
 The idea is to replicate some abilities of the `Heroku CLI` tool but for self hosted stacks.
 
+[Read about it @ syan.me](https://syan.me/en/products/harbor)
+
 ### Config
 
-The configuration file should reside in `~/.config/harbor.json`, and formatted as is : 
+The configuration file should reside in `~/.config/harbor.json`, and formatted as is :
 
 ```json5
 {
@@ -18,7 +20,7 @@ The configuration file should reside in `~/.config/harbor.json`, and formatted a
       "alias": "vps",            // alias to be used when passing the env as an argument
       "host": "vps.example.com", // the actual host
       "port": 2200,              // port, defaults to 22 if missing
-      "user": "ubuntu",          // user, defaults to root if missing 
+      "user": "ubuntu",          // user, defaults to root if missing
       "provider": "swarm",       // stack used, possible values are `compose`, `swarm` or `k3s` for now
       "nodes": {                 // list the correspondances of node name -> host (used for swarm)
         "node1": "vps.example.com",
@@ -58,4 +60,3 @@ SUBCOMMANDS:
 The simplest way to build this is to run `swift build`.
 
 To generate packages for macOS and Linux containing the main executable and resources, you can run `./build.sh release`.
-

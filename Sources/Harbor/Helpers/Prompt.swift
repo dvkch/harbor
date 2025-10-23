@@ -9,6 +9,7 @@ import Foundation
 import ConsoleKit
 import LineNoise
 
+#warning("Use ncurses?")
 struct Prompt {
 
     static func choice<T: CustomStringConvertible>(_ title: String, options: [T]) -> T {

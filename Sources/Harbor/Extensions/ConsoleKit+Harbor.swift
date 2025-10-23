@@ -8,6 +8,7 @@
 import Foundation
 import ConsoleKit
 
+#warning("Use ncurses?")
 extension Terminal {
     
     func obtainMode(fd: Int32) -> termios? {

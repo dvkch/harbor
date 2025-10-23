@@ -14,6 +14,7 @@ import Darwin
 #endif
 
 
+#warning("Use https://github.com/orlandos-nl/Citadel ?")
 extension Environment {
     enum SSHCommand {
         case command(String)

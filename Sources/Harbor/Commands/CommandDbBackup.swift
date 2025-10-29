@@ -27,6 +27,9 @@ struct CommandDbBackup: ParsableCommand {
 
     @Flag(name: .long, help: "Obtain the latest download, for providers supporting it")
     var latest: Bool = false
+    
+    @Argument(help: "Backup options")
+    var options: String?
 
     mutating func run() throws {
         let environment: Environment
@@ -52,7 +55,13 @@ struct CommandDbBackup: ParsableCommand {
         print("Detected image: \(image), tag: \(tag)")
         self.filename = filename ?? Prompt.input("Output filename:", default: "db.dump")
 
-        let outputURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent(filename)
+        let outputURL: URL
+        if filename.starts(with: "/") {
+            outputURL = URL(fileURLWithPath: filename)
+        }
+        else {
+            outputURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appendingPathComponent(filename)
+        }
 
         switch image {
         case "postgres":
@@ -62,7 +71,7 @@ struct CommandDbBackup: ParsableCommand {
                 return
             }
             
-            let command = "pg_dump -Fc --no-acl --no-owner -h localhost -U \(user) \(dbName)"
+            let command = "pg_dump -Fc --no-acl --no-owner -h localhost -U \(user) \(options ?? "") \(dbName)"
             environment.exec(service: service, command: command, interactive: false, redirectOutputPath: outputURL.path)
             
         case "myssql":
@@ -79,7 +88,7 @@ struct CommandDbBackup: ParsableCommand {
                 return
             }
 
-            var command = "MYSQL_PWD=\(pass) /usr/bin/mysqldump --default-character-set=utf8mb4 --no-tablespaces -u \(user) \(db)"
+            var command = "MYSQL_PWD=\(pass) /usr/bin/mysqldump --default-character-set=utf8mb4 --no-tablespaces -u \(user) \(options ?? "") \(db)"
             command = "/bin/bash -c '\(command)'"
             environment.exec(service: service, command: command, interactive: false, redirectOutputPath: outputURL.path)
 

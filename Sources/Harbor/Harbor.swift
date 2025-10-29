@@ -47,7 +47,7 @@ struct Harbor: ParsableCommand {
         
         return .init(
             abstract: "Harbor",
-            version: "1.4",
+            version: "1.5",
             subcommands: commands,
             defaultSubcommand: nil
         )
